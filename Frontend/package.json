@@ -1,0 +1,38 @@
+{
+  "name": "talent-incubator-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .next out",
+    "docker:build": "docker build -t talent-incubator .",
+    "docker:run": "docker run -p 3000:3000 talent-incubator"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@faker-js/faker": "^8.3.1",
+    "@mui/icons-material": "^5.15.1",
+    "@mui/lab": "^5.0.0-alpha.157",
+    "@mui/material": "^5.15.1",
+    "@mui/x-data-grid": "^6.18.3",
+    "@mui/x-date-pickers": "^6.18.3",
+    "@tanstack/react-query": "^5.14.2",
+    "next": "14.0.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "recharts": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "typescript": "^5"
+  }
+}
