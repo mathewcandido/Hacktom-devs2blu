@@ -1,0 +1,38 @@
+services:
+  # Frontend Next.js com Yarn (otimizado standalone)
+  frontend:
+    build: 
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+
+  # Backend API (placeholder leve)
+  backend:
+    image: node:20-alpine
+    command: sh -c "echo 'Backend placeholder - Ready for development' && sleep infinity"
+    ports:
+      - "8000:8000"
+
+  # Database MySQL (leve)
+  database:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=talent_incubator
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # Adminer - Interface MySQL (leve)
+  adminer:
+    image: adminer:4.8.1
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
