@@ -11,14 +11,16 @@ public class Evaluations {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "participant_id", nullable = false)
     private Participant participant;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "evaluator_id")
     private Leader evaluator;
-    @ManyToOne
     private String evaluatorName;
     private Integer score;
     private String feedback;
+    @Enumerated(EnumType.STRING)
     private Category category;
     private LocalDateTime createdAt = LocalDateTime.now();
 

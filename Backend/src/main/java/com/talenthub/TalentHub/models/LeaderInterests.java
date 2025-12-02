@@ -2,10 +2,7 @@ package com.talenthub.TalentHub.models;
 
 import com.talenthub.TalentHub.models.enums.Status;
 import com.talenthub.TalentHub.models.enums.StatusInterest;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,8 +12,13 @@ public class LeaderInterests {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "leader_id", nullable = false)
     private Leader leader;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "participant_id", nullable = false)
     private Participant participant;
+    @Enumerated(EnumType.STRING)
     private StatusInterest status = StatusInterest.INTERESSE;
     private String notes;
     private LocalDateTime createdAt = LocalDateTime.now();

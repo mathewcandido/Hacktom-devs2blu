@@ -1,10 +1,7 @@
 package com.talenthub.TalentHub.models;
 
 import com.talenthub.TalentHub.models.enums.Type;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,7 +11,10 @@ public class TimelineEvents {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "participant_id", nullable = false)
     private Participant participant;
+    @Enumerated(EnumType.STRING)
     private Type type;
     private String title;
     private String description;
