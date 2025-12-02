@@ -1,14 +1,14 @@
 # 🔗 API & DATABASE SPECIFICATION
 ## Especificações para Integração Backend - Frontend
 
-### 📋 **OVERVIEW**
+### **OVERVIEW**
 Este documento define todas as **rotas da API** e **estrutura de banco de dados** necessárias para integrar o frontend da **Plataforma Incubadora de Talentos** com o backend.
 
 ---
 
-## 🗄️ **ESTRUTURA DO BANCO DE DADOS**
+##  **ESTRUTURA DO BANCO DE DADOS**
 
-### **📊 Tabela: `participants`**
+### ** Tabela: `participants`**
 ```sql
 CREATE TABLE participants (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -33,7 +33,7 @@ CREATE INDEX idx_participants_batch ON participants(batch);
 CREATE INDEX idx_participants_evolution ON participants(evolution);
 ```
 
-### **👨‍💼 Tabela: `leaders`**
+### ** Tabela: `leaders`**
 ```sql
 CREATE TABLE leaders (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -51,7 +51,7 @@ CREATE INDEX idx_leaders_area ON leaders(area);
 CREATE INDEX idx_leaders_department ON leaders(department);
 ```
 
-### **📝 Tabela: `evaluations`**
+### ** Tabela: `evaluations`**
 ```sql
 CREATE TABLE evaluations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -70,7 +70,7 @@ CREATE INDEX idx_evaluations_category ON evaluations(category);
 CREATE INDEX idx_evaluations_score ON evaluations(score);
 ```
 
-### **📈 Tabela: `timeline_events`**
+### ** Tabela: `timeline_events`**
 ```sql
 CREATE TABLE timeline_events (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -88,7 +88,7 @@ CREATE INDEX idx_timeline_events_type ON timeline_events(type);
 CREATE INDEX idx_timeline_events_actor_id ON timeline_events(actor_id);
 ```
 
-### **🔗 Tabela: `participant_skills` (Relacionamento N:N)**
+### ** Tabela: `participant_skills` (Relacionamento N:N)**
 ```sql
 CREATE TABLE skills (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -104,7 +104,7 @@ CREATE TABLE participant_skills (
 );
 ```
 
-### **❤️ Tabela: `leader_interests` (Interesses dos líderes)**
+### ** Tabela: `leader_interests` (Interesses dos líderes)**
 ```sql
 CREATE TABLE leader_interests (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -263,12 +263,12 @@ GET /leaders
 }
 ```
 
-### **👤 Obter Líder por ID**
+### ** Obter Líder por ID**
 ```http
 GET /leaders/:id
 ```
 
-### **❤️ Demonstrar Interesse**
+### ** Demonstrar Interesse**
 ```http
 POST /leaders/:leaderId/interest
 ```
@@ -384,9 +384,9 @@ POST /participants/:id/timeline
 
 ---
 
-## 📊 **DASHBOARD & ESTATÍSTICAS**
+## **DASHBOARD & ESTATÍSTICAS**
 
-### **📈 Estatísticas Gerais**
+### ** Estatísticas Gerais**
 ```http
 GET /dashboard/stats
 ```
@@ -411,7 +411,7 @@ GET /dashboard/stats
 }
 ```
 
-### **📊 Distribuição por Status**
+### ** Distribuição por Status**
 ```http
 GET /dashboard/status-distribution
 ```
@@ -427,7 +427,7 @@ GET /dashboard/status-distribution
 }
 ```
 
-### **📈 Distribuição por Área**
+### ** Distribuição por Área**
 ```http
 GET /dashboard/area-distribution
 ```
@@ -443,7 +443,7 @@ GET /dashboard/area-distribution
 }
 ```
 
-### **📊 Evolução por Turma**
+### ** Evolução por Turma**
 ```http
 GET /dashboard/evolution-by-batch
 ```

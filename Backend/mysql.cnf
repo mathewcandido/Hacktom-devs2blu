@@ -1,0 +1,26 @@
+# Configurações personalizadas do MySQL
+[mysqld]
+# Configurações de performance
+innodb_buffer_pool_size = 256M
+max_connections = 200
+# query_cache removido no MySQL 8.0+
+
+# Configurações de charset
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+# Configurações de timezone
+default-time-zone = '-03:00'
+
+# Logs
+general_log = 1
+general_log_file = /var/log/mysql/general.log
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/slow.log
+long_query_time = 2
+
+[mysql]
+default-character-set = utf8mb4
+
+[client]
+default-character-set = utf8mb4
