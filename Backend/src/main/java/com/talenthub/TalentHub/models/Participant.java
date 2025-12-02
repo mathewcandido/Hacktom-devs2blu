@@ -12,6 +12,7 @@ public class Participant {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
+    @Column(unique = true)
     private String email;
     private String phone;
     private String photoUrl;
