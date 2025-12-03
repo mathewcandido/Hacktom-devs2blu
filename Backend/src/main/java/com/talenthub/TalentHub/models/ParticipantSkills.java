@@ -7,6 +7,9 @@ import java.util.UUID;
 
 @Entity(name = "participant_skills")
 public class ParticipantSkills {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "participant_id", nullable = false)
     private Participant participant;

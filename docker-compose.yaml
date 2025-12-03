@@ -1,0 +1,34 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: talent_incubator
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: 123AA
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./Backend/init-scripts:/docker-entrypoint-initdb.d
+
+  app:
+    build:
+      context: ./Backend/
+      dockerfile: Dockerfile
+    image: talenthub-app:1.0.0
+    container_name: api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/talent_incubator?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: app_user
+      SPRING_DATASOURCE_PASSWORD: 123AA
+    restart: on-failure
+
+volumes:
+  mysql_data:

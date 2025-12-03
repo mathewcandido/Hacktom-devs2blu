@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +28,8 @@ public class ParticipantService {
     }
 
     public Participant create(Participant participant){
+        participant.setCreatedAt(LocalDateTime.now());
+        participant.setStartDate(LocalDateTime.now());
         return participantRepository.save(participant);
     }
 
@@ -43,6 +46,7 @@ public class ParticipantService {
             return new Participant();
         Participant newParticipant = participant;
         newParticipant.setId(id);
+        newParticipant.setUpdatedAt(LocalDateTime.now());
         return participantRepository.save(newParticipant);
     }
 }

@@ -5,6 +5,7 @@ import com.talenthub.TalentHub.repositories.LeaderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,6 +25,8 @@ public class LeaderService {
     }
 
     public Leader create(Leader leader){
+        leader.setJoinDate(LocalDateTime.now());
+        leader.setCreatedAt(LocalDateTime.now());
         return leaderRepository.save(leader);
     }
 
@@ -40,6 +43,7 @@ public class LeaderService {
             return new Leader();
         Leader newLeader = leader;
         newLeader.setId(id);
+        newLeader.setUpdatedAt(LocalDateTime.now());
         return leaderRepository.save(newLeader);
     }
 }
