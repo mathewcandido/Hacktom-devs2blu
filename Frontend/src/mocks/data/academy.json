@@ -1,0 +1,104 @@
+{
+  "courses": [
+    {
+      "id": "course-001",
+      "name": "Fundamentos de Frontend",
+      "description": "Aprenda HTML, CSS, JavaScript e React do zero",
+      "duration": "3 meses",
+      "level": "Iniciante",
+      "participants": 45,
+      "instructor": "Maria Helena Rodrigues",
+      "technologies": ["HTML", "CSS", "JavaScript", "React"],
+      "status": "active",
+      "progress": 85
+    },
+    {
+      "id": "course-002", 
+      "name": "Backend com Node.js",
+      "description": "Desenvolvimento de APIs REST e microserviços",
+      "duration": "4 meses",
+      "level": "Intermediário",
+      "participants": 32,
+      "instructor": "João Carlos Mendes",
+      "technologies": ["Node.js", "Express", "PostgreSQL", "Docker"],
+      "status": "active",
+      "progress": 72
+    },
+    {
+      "id": "course-003",
+      "name": "Mobile com React Native",
+      "description": "Criação de aplicativos móveis multiplataforma",
+      "duration": "3.5 meses",
+      "level": "Intermediário",
+      "participants": 28,
+      "instructor": "Ricardo Silva Santos",
+      "technologies": ["React Native", "TypeScript", "Firebase"],
+      "status": "active",
+      "progress": 60
+    },
+    {
+      "id": "course-004",
+      "name": "Fullstack Advanced",
+      "description": "Desenvolvimento completo com tecnologias modernas",
+      "duration": "6 meses",
+      "level": "Avançado",
+      "participants": 18,
+      "instructor": "Ana Beatriz Costa",
+      "technologies": ["React", "Node.js", "MongoDB", "AWS", "Docker"],
+      "status": "enrolling",
+      "progress": 0
+    }
+  ],
+  "upcomingEvents": [
+    {
+      "id": "event-001",
+      "title": "Workshop: Design System",
+      "date": "2024-04-15T14:00:00Z",
+      "duration": "2 horas",
+      "instructor": "Camila Ferreira Lima",
+      "description": "Aprenda a criar e manter design systems escaláveis"
+    },
+    {
+      "id": "event-002",
+      "title": "Palestra: Carreira em Tech",
+      "date": "2024-04-20T19:00:00Z",
+      "duration": "1.5 horas",
+      "instructor": "Eduardo Pereira Alves",
+      "description": "Dicas e estratégias para construir uma carreira sólida em tecnologia"
+    },
+    {
+      "id": "event-003",
+      "title": "Hackathon Interno",
+      "date": "2024-04-25T09:00:00Z",
+      "duration": "48 horas",
+      "instructor": "Vários instrutores",
+      "description": "Competição de desenvolvimento em equipe com projetos reais"
+    }
+  ],
+  "resources": [
+    {
+      "id": "resource-001",
+      "title": "Guia de Boas Práticas - Frontend",
+      "type": "PDF",
+      "size": "2.3 MB",
+      "downloads": 156,
+      "category": "Frontend"
+    },
+    {
+      "id": "resource-002",
+      "title": "Template de API REST",
+      "type": "GitHub",
+      "size": "projeto completo",
+      "downloads": 89,
+      "category": "Backend"
+    },
+    {
+      "id": "resource-003",
+      "title": "Kit de Componentes React",
+      "type": "NPM Package",
+      "size": "1.8 MB",
+      "downloads": 203,
+      "category": "Frontend"
+    }
+  ]
+}

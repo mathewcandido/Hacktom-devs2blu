@@ -12,8 +12,9 @@ import {
   Menu,
   MenuItem,
   Chip,
+  Button,
 } from "@mui/material";
-import { NotificationsOutlined, LogoutOutlined, PersonOutlined, SettingsOutlined } from "@mui/icons-material";
+import { NotificationsOutlined, LogoutOutlined, PersonOutlined, SettingsOutlined, BugReport } from "@mui/icons-material";
 import { useAuth } from "../../contexts/AuthContext";
 
 const drawerWidth = 280;
@@ -77,6 +78,23 @@ const Header: React.FC = () => {
           Painel de Controle
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          {/* Debug button - only in development */}
+          {process.env.NODE_ENV === 'development' && (
+            <Button
+              size="small"
+              startIcon={<BugReport />}
+              onClick={() => router.push('/debug')}
+              sx={{ 
+                color: '#666',
+                '&:hover': { 
+                  backgroundColor: 'rgba(0,0,0,0.04)' 
+                }
+              }}
+            >
+              Debug
+            </Button>
+          )}
+          
           {user && (
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <Typography variant="body2" sx={{ color: "#666", fontSize: '0.875rem' }}>
