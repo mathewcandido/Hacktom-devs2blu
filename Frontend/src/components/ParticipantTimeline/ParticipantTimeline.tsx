@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   Timeline,
   TimelineItem,
@@ -8,72 +8,68 @@ import {
   TimelineConnector,
   TimelineContent,
   TimelineOppositeContent,
-  TimelineDot
-} from '@mui/lab';
-import {
-  Typography,
-  Card,
-  CardContent,
-  Box
-} from '@mui/material';
+  TimelineDot,
+} from "@mui/lab";
+import { Typography, Card, CardContent, Box } from "@mui/material";
 import {
   PersonAdd,
   Assessment,
   FavoriteOutlined,
   BookmarkBorder,
   School,
-  Work
-} from '@mui/icons-material';
-import { TimelineEvent, TimelineEventType } from '@/types';
+  Work,
+} from "@mui/icons-material";
+import { TimelineEvent, TimelineEventType } from "@/types";
 
 interface ParticipantTimelineProps {
   events: TimelineEvent[];
 }
+export const getEventIcon = (type: TimelineEventType) => {
+  switch (type) {
+    case TimelineEventType.ENROLLMENT:
+      return <PersonAdd />;
+    case TimelineEventType.EVALUATION:
+      return <Assessment />;
+    case TimelineEventType.INTEREST:
+      return <FavoriteOutlined />;
+    case TimelineEventType.RESERVATION:
+      return <BookmarkBorder />;
+    case TimelineEventType.GRADUATION:
+      return <School />;
+    case TimelineEventType.HIRING:
+      return <Work />;
+    default:
+      return <PersonAdd />;
+  }
+};
 
-export default function ParticipantTimeline({ events }: ParticipantTimelineProps) {
-  const getEventIcon = (type: TimelineEventType) => {
-    switch (type) {
-      case TimelineEventType.ENROLLMENT:
-        return <PersonAdd />;
-      case TimelineEventType.EVALUATION:
-        return <Assessment />;
-      case TimelineEventType.INTEREST:
-        return <FavoriteOutlined />;
-      case TimelineEventType.RESERVATION:
-        return <BookmarkBorder />;
-      case TimelineEventType.GRADUATION:
-        return <School />;
-      case TimelineEventType.HIRING:
-        return <Work />;
-      default:
-        return <PersonAdd />;
-    }
-  };
+const getEventColor = (type: TimelineEventType) => {
+  switch (type) {
+    case TimelineEventType.ENROLLMENT:
+      return "#1976d2";
+    case TimelineEventType.EVALUATION:
+      return "#2e7d32";
+    case TimelineEventType.INTEREST:
+      return "#ed6c02";
+    case TimelineEventType.RESERVATION:
+      return "#9c27b0";
+    case TimelineEventType.GRADUATION:
+      return "#0288d1";
+    case TimelineEventType.HIRING:
+      return "#d32f2f";
+    default:
+      return "#666";
+  }
+};
 
-  const getEventColor = (type: TimelineEventType) => {
-    switch (type) {
-      case TimelineEventType.ENROLLMENT:
-        return '#1976d2';
-      case TimelineEventType.EVALUATION:
-        return '#2e7d32';
-      case TimelineEventType.INTEREST:
-        return '#ed6c02';
-      case TimelineEventType.RESERVATION:
-        return '#9c27b0';
-      case TimelineEventType.GRADUATION:
-        return '#0288d1';
-      case TimelineEventType.HIRING:
-        return '#d32f2f';
-      default:
-        return '#666';
-    }
-  };
-
+const ParticipantTimeline: React.FC<ParticipantTimelineProps> = ({
+  events,
+}) => {
   const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric'
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
     }).format(date);
   };
 
@@ -99,8 +95,8 @@ export default function ParticipantTimeline({ events }: ParticipantTimelineProps
           {events.map((event, index) => (
             <TimelineItem key={event.id}>
               <TimelineOppositeContent
-                sx={{ m: 'auto 0' }}
-                align={index % 2 === 0 ? 'right' : 'left'}
+                sx={{ m: "auto 0" }}
+                align={index % 2 === 0 ? "right" : "left"}
                 variant="body2"
                 color="text.secondary"
               >
@@ -110,14 +106,14 @@ export default function ParticipantTimeline({ events }: ParticipantTimelineProps
                 <TimelineDot
                   sx={{
                     bgcolor: getEventColor(event.type),
-                    color: 'white'
+                    color: "white",
                   }}
                 >
                   {getEventIcon(event.type)}
                 </TimelineDot>
                 {index < events.length - 1 && <TimelineConnector />}
               </TimelineSeparator>
-              <TimelineContent sx={{ py: '12px', px: 2 }}>
+              <TimelineContent sx={{ py: "12px", px: 2 }}>
                 <Typography variant="h6" component="span">
                   {event.title}
                 </Typography>
@@ -125,7 +121,10 @@ export default function ParticipantTimeline({ events }: ParticipantTimelineProps
                   {event.description}
                 </Typography>
                 {event.actorName && (
-                  <Typography variant="body2" sx={{ mt: 0.5, fontStyle: 'italic' }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ mt: 0.5, fontStyle: "italic" }}
+                  >
                     Por: {event.actorName}
                   </Typography>
                 )}
@@ -136,4 +135,5 @@ export default function ParticipantTimeline({ events }: ParticipantTimelineProps
       </CardContent>
     </Card>
   );
-}
+};
+export default ParticipantTimeline;

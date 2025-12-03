@@ -1,14 +1,8 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import {
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  Box,
-  Paper
-} from '@mui/material';
+import React, { useEffect, useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Grid, Typography, Card, CardContent, Box, Paper } from "@mui/material";
 import {
   BarChart,
   Bar,
@@ -21,13 +15,15 @@ import {
   Pie,
   Cell,
   LineChart,
-  Line
-} from 'recharts';
-import Layout from '@/components/Layout';
-import StatsCard from '@/components/StatsCard';
-import { getParticipants } from '@/services/api';
-import { Participant, ParticipantStatus, Area } from '@/types';
-import { statusColors, areaColors } from '@/mocks/status';
+  Line,
+} from "recharts";
+import Layout from "@/components/Layout";
+import StatsCard from "@/components/StatsCard/StatsCard";
+import { ProtectedRoute } from "../../components/ProtectedRoute";
+import { getParticipants } from "@/services/api";
+import { Participant, ParticipantStatus, Area } from "@/types";
+import { statusColors, areaColors } from "@/mocks/status";
+import Loading from "../loading";
 
 export default function Dashboard() {
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -39,7 +35,7 @@ export default function Dashboard() {
         const data = await getParticipants();
         setParticipants(data);
       } catch (error) {
-        console.error('Error fetching participants:', error);
+        console.error("Error fetching participants:", error);
       } finally {
         setLoading(false);
       }
@@ -49,14 +45,26 @@ export default function Dashboard() {
   }, []);
 
   if (loading) {
-    return <Layout><Typography>Carregando...</Typography></Layout>;
+    return (
+      <ProtectedRoute>
+        <Layout>
+          <Loading />
+        </Layout>
+      </ProtectedRoute>
+    );
   }
 
   // Stats calculations
   const totalParticipants = participants.length;
-  const availableParticipants = participants.filter(p => p.status === ParticipantStatus.AVAILABLE).length;
-  const reservedParticipants = participants.filter(p => p.status === ParticipantStatus.RESERVED).length;
-  const hiredParticipants = participants.filter(p => p.status === ParticipantStatus.HIRED).length;
+  const availableParticipants = participants.filter(
+    (p) => p.status === ParticipantStatus.AVAILABLE
+  ).length;
+  const reservedParticipants = participants.filter(
+    (p) => p.status === ParticipantStatus.RESERVED
+  ).length;
+  const hiredParticipants = participants.filter(
+    (p) => p.status === ParticipantStatus.HIRED
+  ).length;
   const averageEvolution = Math.round(
     participants.reduce((sum, p) => sum + p.evolution, 0) / participants.length
   );
@@ -65,53 +73,70 @@ export default function Dashboard() {
   const statusDistribution = [
     {
       name: ParticipantStatus.IN_TRAINING,
-      value: participants.filter(p => p.status === ParticipantStatus.IN_TRAINING).length,
-      color: statusColors[ParticipantStatus.IN_TRAINING].color
+      value: participants.filter(
+        (p) => p.status === ParticipantStatus.IN_TRAINING
+      ).length,
+      color: statusColors[ParticipantStatus.IN_TRAINING].color,
     },
     {
       name: ParticipantStatus.AVAILABLE,
       value: availableParticipants,
-      color: statusColors[ParticipantStatus.AVAILABLE].color
+      color: statusColors[ParticipantStatus.AVAILABLE].color,
     },
     {
       name: ParticipantStatus.RESERVED,
       value: reservedParticipants,
-      color: statusColors[ParticipantStatus.RESERVED].color
+      color: statusColors[ParticipantStatus.RESERVED].color,
     },
     {
       name: ParticipantStatus.HIRED,
       value: hiredParticipants,
-      color: statusColors[ParticipantStatus.HIRED].color
-    }
-  ].filter(item => item.value > 0);
+      color: statusColors[ParticipantStatus.HIRED].color,
+    },
+  ].filter((item) => item.value > 0);
 
   // Area distribution for bar chart
-  const areaDistribution = [Area.DEVELOPMENT, Area.UX_DESIGN, Area.QA, Area.DATA_SCIENCE, Area.PRODUCT, Area.MARKETING].map(area => ({
-    area: area.split(' ')[0], // Shorten names for better display
-    count: participants.filter(p => p.area === area).length,
-    color: areaColors[area].color
+  const areaDistribution = [
+    Area.DEVELOPMENT,
+    Area.UX_DESIGN,
+    Area.QA,
+    Area.DATA_SCIENCE,
+    Area.PRODUCT,
+    Area.MARKETING,
+  ].map((area) => ({
+    area: area.split(" ")[0], // Shorten names for better display
+    count: participants.filter((p) => p.area === area).length,
+    color: areaColors[area].color,
   }));
 
   // Evolution by batch
-  const uniqueBatches = Array.from(new Set(participants.map(p => p.batch)));
-  const evolutionByBatch = uniqueBatches.map(batch => {
-    const batchParticipants = participants.filter(p => p.batch === batch);
-    const avgEvolution = Math.round(
-      batchParticipants.reduce((sum, p) => sum + p.evolution, 0) / batchParticipants.length
-    );
-    return {
-      batch: batch.replace('Turma ', ''),
-      evolution: avgEvolution,
-      count: batchParticipants.length
-    };
-  }).sort((a, b) => a.batch.localeCompare(b.batch));
+  const uniqueBatches = Array.from(new Set(participants.map((p) => p.batch)));
+  const evolutionByBatch = uniqueBatches
+    .map((batch) => {
+      const batchParticipants = participants.filter((p) => p.batch === batch);
+      const avgEvolution = Math.round(
+        batchParticipants.reduce((sum, p) => sum + p.evolution, 0) /
+          batchParticipants.length
+      );
+      return {
+        batch: batch.replace("Turma ", ""),
+        evolution: avgEvolution,
+        count: batchParticipants.length,
+      };
+    })
+    .sort((a, b) => a.batch.localeCompare(b.batch));
 
   return (
-    <Layout>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" gutterBottom sx={{ fontWeight: 600, color: '#1a1a1a' }}>
-          Dashboard Geral
-        </Typography>
+    <ProtectedRoute>
+      <Layout>
+        <Box sx={{ mb: 4 }}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ fontWeight: 600, color: "#1a1a1a" }}
+          >
+            Dashboard Geral
+          </Typography>
         <Typography variant="body1" color="textSecondary">
           Visão geral da incubadora de talentos
         </Typography>
@@ -177,7 +202,9 @@ export default function Dashboard() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={({ name, value, percent }) => `${name}: ${value} (${(percent * 100).toFixed(0)}%)`}
+                    label={({ name, value, percent }) =>
+                      `${name}: ${value} (${(percent * 100).toFixed(0)}%)`
+                    }
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="value"
@@ -203,8 +230,8 @@ export default function Dashboard() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={areaDistribution}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    dataKey="area" 
+                  <XAxis
+                    dataKey="area"
                     tick={{ fontSize: 12 }}
                     interval={0}
                     angle={-45}
@@ -232,16 +259,19 @@ export default function Dashboard() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="batch" />
                   <YAxis domain={[0, 100]} />
-                  <Tooltip 
-                    formatter={(value: any, name: any) => [`${value}%`, 'Evolução Média']}
+                  <Tooltip
+                    formatter={(value: any, name: any) => [
+                      `${value}%`,
+                      "Evolução Média",
+                    ]}
                     labelFormatter={(label: any) => `Turma ${label}`}
                   />
-                  <Line 
-                    type="monotone" 
-                    dataKey="evolution" 
-                    stroke="#1976d2" 
+                  <Line
+                    type="monotone"
+                    dataKey="evolution"
+                    stroke="#1976d2"
                     strokeWidth={3}
-                    dot={{ fill: '#1976d2', strokeWidth: 2, r: 6 }}
+                    dot={{ fill: "#1976d2", strokeWidth: 2, r: 6 }}
                     activeDot={{ r: 8 }}
                   />
                 </LineChart>
@@ -251,5 +281,6 @@ export default function Dashboard() {
         </Grid>
       </Grid>
     </Layout>
+    </ProtectedRoute>
   );
 }

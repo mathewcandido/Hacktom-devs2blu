@@ -1,82 +1,22 @@
-export interface Participant {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  photo: string;
-  area: Area;
-  batch: string;
-  status: ParticipantStatus;
-  evolution: number;
-  startDate: Date;
-  evaluations: Evaluation[];
-  timeline: TimelineEvent[];
-  skills: string[];
-  bio: string;
-}
+// Export interfaces
+export type { Participant } from './Participant';
+export type { Leader } from './Leader';
+export type { Evaluation } from './Evaluation';
+export type { TimelineEvent } from './TimelineEvent';
+export type { User, LoginCredentials, AuthState, AuthContextType } from './Auth';
 
-export interface Leader {
-  id: string;
-  name: string;
-  email: string;
-  photo: string;
-  area: Area;
-  department: string;
-  interestedParticipants: string[];
-  reservedParticipants: string[];
-  joinDate: Date;
-}
+// Export enums
+export { EnumArea } from './EnumArea';
+export { EnumParticipantStatus } from './EnumParticipantStatus';
+export { EnumEvaluationCategory } from './EnumEvaluationCategory';
+export { EnumTimelineEventType } from './EnumTimelineEventType';
 
-export interface Evaluation {
-  id: string;
-  participantId: string;
-  evaluatorId: string;
-  evaluatorName: string;
-  score: number;
-  feedback: string;
-  date: Date;
-  category: EvaluationCategory;
-}
-
-export interface TimelineEvent {
-  id: string;
-  participantId: string;
-  type: TimelineEventType;
-  title: string;
-  description: string;
-  date: Date;
-  actorId?: string;
-  actorName?: string;
-}
-
-export enum Area {
-  DEVELOPMENT = 'Desenvolvimento',
-  UX_DESIGN = 'UX/UI Design',
-  QA = 'Quality Assurance',
-  DATA_SCIENCE = 'Data Science',
-  PRODUCT = 'Product Management',
-  MARKETING = 'Marketing Digital'
-}
-
-export enum ParticipantStatus {
-  IN_TRAINING = 'Em Formação',
-  AVAILABLE = 'Disponível',
-  RESERVED = 'Reservado',
-  HIRED = 'Contratado'
-}
-
-export enum EvaluationCategory {
-  TECHNICAL = 'Técnica',
-  SOFT_SKILLS = 'Soft Skills',
-  LEADERSHIP = 'Liderança',
-  COMMUNICATION = 'Comunicação'
-}
-
-export enum TimelineEventType {
-  ENROLLMENT = 'Inscrição',
-  EVALUATION = 'Avaliação',
-  INTEREST = 'Interesse de Líder',
-  RESERVATION = 'Reserva',
-  GRADUATION = 'Formatura',
-  HIRING = 'Contratação'
-}
+// Export legacy enums for backward compatibility (deprecated)
+/** @deprecated Use EnumArea instead */
+export { EnumArea as Area } from './EnumArea';
+/** @deprecated Use EnumParticipantStatus instead */
+export { EnumParticipantStatus as ParticipantStatus } from './EnumParticipantStatus';
+/** @deprecated Use EnumEvaluationCategory instead */
+export { EnumEvaluationCategory as EvaluationCategory } from './EnumEvaluationCategory';
+/** @deprecated Use EnumTimelineEventType instead */
+export { EnumTimelineEventType as TimelineEventType } from './EnumTimelineEventType';
