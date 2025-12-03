@@ -3,6 +3,7 @@ package com.talenthub.TalentHub.services;
 import com.talenthub.TalentHub.dto.DashboardResponse;
 import com.talenthub.TalentHub.models.Leader;
 import com.talenthub.TalentHub.models.Participant;
+import com.talenthub.TalentHub.models.enums.Status;
 import com.talenthub.TalentHub.repositories.LeaderRepository;
 import com.talenthub.TalentHub.repositories.ParticipantRepository;
 import org.springframework.stereotype.Service;
@@ -42,15 +43,15 @@ public class DashboardServices {
     }
 
     public Integer getAvailableParticipants(){
-        return participantRepository.getCountParticipantsByStatus(1);
+        return participantRepository.getCountParticipantsByStatus(Status.DISPONIVEL);
     }
 
     public Integer getReservedParticipants(){
-        return participantRepository.getCountParticipantsByStatus(2);
+        return participantRepository.getCountParticipantsByStatus(Status.RESERVADO);
     }
 
     public Integer getHiredParticipants(){
-        return participantRepository.getCountParticipantsByStatus(3);
+        return participantRepository.getCountParticipantsByStatus(Status.CONTRATADO);
     }
 
 
