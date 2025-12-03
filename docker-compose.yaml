@@ -1,34 +1,50 @@
+version: '3.8'
+
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql_db
-    restart: always
+  postgres:
+    image: postgres:16-alpine
+    container_name: talenthub_postgres
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: talent_incubator
-      MYSQL_USER: app_user
-      MYSQL_PASSWORD: 123AA
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: talent_hub
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./Backend/init-scripts:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - talenthub_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   app:
     build:
-      context: ./Backend/
+      context: ./Backend
       dockerfile: Dockerfile
-    image: talenthub-app:1.0.0
-    container_name: api
+    container_name: talenthub_app
+    restart: unless-stopped
     ports:
       - "8080:8080"
-    depends_on:
-      - mysql
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/talent_incubator?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: app_user
-      SPRING_DATASOURCE_PASSWORD: 123AA
-    restart: on-failure
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/talent_hub
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - talenthub_network
 
 volumes:
-  mysql_data:
+  postgres_data:
+    driver: local
+
+networks:
+  talenthub_network:
+    driver: bridge
