@@ -38,7 +38,8 @@ import {
   Tooltip
 } from 'recharts';
 import Layout from '@/components/Layout';
-import StatsCard from '@/components/StatsCard';
+import { ProtectedRoute } from '../../components/ProtectedRoute';
+import StatsCard from '@/components/StatsCard/StatsCard';
 
 export default function AcademyPage() {
   // Mock data for the academy
@@ -118,7 +119,8 @@ export default function AcademyPage() {
   const averageProgress = Math.round(batches.reduce((sum, batch) => sum + batch.progress, 0) / batches.length);
 
   return (
-    <Layout>
+    <ProtectedRoute>
+      <Layout>
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" gutterBottom sx={{ fontWeight: 600, color: '#1a1a1a' }}>
           Academia
@@ -413,5 +415,6 @@ export default function AcademyPage() {
         </Grid>
       </Grid>
     </Layout>
+    </ProtectedRoute>
   );
 }
