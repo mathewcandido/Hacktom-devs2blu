@@ -1,6 +1,7 @@
 package com.talenthub.TalentHub.services;
 
 import com.talenthub.TalentHub.dto.DashboardResponse;
+import com.talenthub.TalentHub.models.Leader;
 import com.talenthub.TalentHub.models.Participant;
 import com.talenthub.TalentHub.repositories.LeaderRepository;
 import com.talenthub.TalentHub.repositories.ParticipantRepository;
@@ -24,7 +25,15 @@ public class DashboardServices {
         result.setAvailableParticipants(getAvailableParticipants());
         result.setReservedPaticipants(getReservedParticipants());
         result.setHiredParticipants(getHiredParticipants());
+        result.setAverageEvolution(85.9);
+        result.setActiveLeaders(getTotalLeaders());
+
         return result;
+    }
+
+    public Integer getTotalLeaders(){
+        List<Leader> leaders = leaderRepository.findAll();
+        return leaders.size();
     }
 
     public Integer getTotalParticipants(){
