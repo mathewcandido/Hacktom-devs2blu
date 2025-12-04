@@ -119,7 +119,7 @@ INSERT INTO leaders (name, email, area, department) VALUES
 ('Diego Pereira', 'diego.pereira@company.com', 'Quality Assurance', 'Qualidade');
 
 -- Inserir skills de exemplo
-INSERT INTO participant_skills (participant_id, skill_name, level) 
+INSERT INTO participant_skills (participant_id, skill_name, level)
 SELECT p.id, skill, level FROM participants p
 CROSS JOIN (
     SELECT 'React' as skill, 'Avançado' as level UNION ALL
@@ -150,7 +150,7 @@ LIMIT 14;
 
 -- Inserir avaliações de exemplo
 INSERT INTO evaluations (participant_id, evaluator_id, evaluator_name, score, feedback, category)
-SELECT 
+SELECT
     p.id,
     l.id,
     l.name,
@@ -164,7 +164,7 @@ LIMIT 15;
 
 -- Inserir eventos do timeline
 INSERT INTO timeline_events (participant_id, type, title, description, actor_name)
-SELECT 
+SELECT
     p.id,
     'Avaliação',
     'Avaliação Técnica Mensal',
@@ -176,7 +176,7 @@ WHERE RAND() < 0.4 -- 40% de chance
 LIMIT 20;
 
 INSERT INTO timeline_events (participant_id, type, title, description, actor_name)
-SELECT 
+SELECT
     p.id,
     'Projeto',
     'Entrega de Projeto',
@@ -188,10 +188,10 @@ LIMIT 12;
 
 -- Inserir interesses dos líderes
 INSERT INTO leader_interests (leader_id, participant_id, status, notes)
-SELECT 
+SELECT
     l.id,
     p.id,
-    CASE 
+    CASE
         WHEN RAND() < 0.3 THEN 'Interesse'
         WHEN RAND() < 0.6 THEN 'Reservado'
         ELSE 'Interesse'
@@ -210,7 +210,7 @@ CREATE INDEX idx_leader_interests_created_at ON leader_interests(created_at);
 
 -- Criar view para estatísticas do dashboard
 CREATE OR REPLACE VIEW dashboard_stats AS
-SELECT 
+SELECT
     COUNT(*) as total_participants,
     COUNT(CASE WHEN status = 'Disponível' THEN 1 END) as available_participants,
     COUNT(CASE WHEN status = 'Reservado' THEN 1 END) as reserved_participants,

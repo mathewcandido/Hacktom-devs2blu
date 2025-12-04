@@ -1,20 +1,26 @@
-# Dockerfile para MySQL Database
-FROM mysql:8.0
+# Etapa 1: Build da aplicação
+FROM maven:3.9-eclipse-temurin-17-alpine AS build
 
-# Configurar variáveis de ambiente para MySQL
-ENV MYSQL_ROOT_PASSWORD=root123
-ENV MYSQL_DATABASE=talent_incubator
-ENV MYSQL_USER=dev_user
-ENV MYSQL_PASSWORD=dev_password
+WORKDIR /app
 
-# Expor porta padrão do MySQL
-EXPOSE 3306
+# Copia o pom.xml e baixa as dependências
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-# Criar diretório para scripts de inicialização
-COPY ./init-scripts/ /docker-entrypoint-initdb.d/
+# Copia o código fonte e faz o build
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Configurações personalizadas do MySQL
-COPY ./mysql.cnf /etc/mysql/conf.d/custom.cnf
+# Etapa 2: Imagem final
+FROM eclipse-temurin:17-jre-alpine
 
-# Volume para persistir dados
-VOLUME ["/var/lib/mysql"]
+WORKDIR /app
+
+# Copia o JAR da etapa de build
+COPY --from=build /app/target/*.jar app.jar
+
+# Expõe a porta da aplicação
+EXPOSE 8080
+
+# Comando para executar a aplicação
+ENTRYPOINT ["java", "-jar", "app.jar"]
