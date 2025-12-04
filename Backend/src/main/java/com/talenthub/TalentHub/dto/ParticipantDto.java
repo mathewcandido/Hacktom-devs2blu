@@ -2,10 +2,9 @@ package com.talenthub.TalentHub.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 public class ParticipantDto {
-    private UUID id;
+    private String id;
     private String name;
     private String email;
     private String area;
@@ -22,10 +21,10 @@ public class ParticipantDto {
 
     public ParticipantDto() {}
 
-    public ParticipantDto(UUID id, String name, String email, String area, String status, 
-                         Integer evolution, String batch, LocalDateTime startDate, 
-                         String photo, String phone, String bio, List<String> skills,
-                         List<EvaluationDto> evaluations, List<TimelineEventDto> timeline) {
+    public ParticipantDto(String id, String name, String email, String area, String status,
+                          Integer evolution, String batch, LocalDateTime startDate,
+                          String photo, String phone, String bio, List<String> skills,
+                          List<EvaluationDto> evaluations, List<TimelineEventDto> timeline) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -43,8 +42,8 @@ public class ParticipantDto {
     }
 
     // Getters and Setters
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

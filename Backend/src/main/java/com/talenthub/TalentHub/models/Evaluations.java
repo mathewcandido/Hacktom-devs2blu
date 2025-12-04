@@ -4,13 +4,12 @@ import com.talenthub.TalentHub.models.enums.Category;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity(name = "evaluations")
 public class Evaluations {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "participant_id", nullable = false)
     private Participant participant;
@@ -24,7 +23,7 @@ public class Evaluations {
     private Category category;
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    public Evaluations(UUID id, Participant participant, Leader evaluator, String evaluatorName, Integer score, String feedback, Category category, LocalDateTime createdAt) {
+    public Evaluations(String id, Participant participant, Leader evaluator, String evaluatorName, Integer score, String feedback, Category category, LocalDateTime createdAt) {
         this.id = id;
         this.participant = participant;
         this.evaluator = evaluator;
@@ -38,11 +37,11 @@ public class Evaluations {
     public Evaluations() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

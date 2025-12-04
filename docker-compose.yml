@@ -27,7 +27,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/talent_incubator
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root123
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
     depends_on:
       database:
         condition: service_healthy

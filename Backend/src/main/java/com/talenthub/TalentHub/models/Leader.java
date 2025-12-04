@@ -3,13 +3,12 @@ package com.talenthub.TalentHub.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity(name = "leaders")
 public class Leader {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
     private String name;
     @Column(unique = true)
     private String email;
@@ -20,7 +19,7 @@ public class Leader {
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    public Leader(UUID id, String name, String email, String photo_url, String area, String department, LocalDateTime joinDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Leader(String id, String name, String email, String photo_url, String area, String department, LocalDateTime joinDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -35,11 +34,11 @@ public class Leader {
     public Leader() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -1,8 +1,6 @@
 package com.talenthub.TalentHub.services;
 
-import com.talenthub.TalentHub.dto.EvaluationDto;
 import com.talenthub.TalentHub.dto.ParticipantDto;
-import com.talenthub.TalentHub.dto.TimelineEventDto;
 import com.talenthub.TalentHub.models.Participant;
 import com.talenthub.TalentHub.repositories.ParticipantRepository;
 import org.springframework.data.domain.Page;
@@ -42,8 +40,8 @@ public class ParticipantService {
         participantRepository.deleteById(id);
     }
 
-    public Participant update(UUID id, Participant participant){
-        Optional<Participant> oldParticipant = participantRepository.findById(id);
+    public Participant update(String id, Participant participant){
+        Optional<Participant> oldParticipant = participantRepository.findById(UUID.fromString(id));
         if (oldParticipant.isEmpty() || oldParticipant == null)
             return new Participant();
         Participant newParticipant = participant;

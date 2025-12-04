@@ -1,17 +1,15 @@
 package com.talenthub.TalentHub.models;
 
-import com.talenthub.TalentHub.models.enums.Status;
 import com.talenthub.TalentHub.models.enums.StatusInterest;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity(name = "leader_interests")
 public class LeaderInterests {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "leader_id", nullable = false)
     private Leader leader;

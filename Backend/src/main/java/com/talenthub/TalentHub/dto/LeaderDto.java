@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class LeaderDto {
-    private UUID id;
+    private String id;
     private String name;
     private String email;
     private String area;
@@ -15,8 +15,8 @@ public class LeaderDto {
 
     public LeaderDto() {}
 
-    public LeaderDto(UUID id, String name, String email, String area, String department, 
-                    String photo, List<UUID> interestedParticipants, List<UUID> reservedParticipants) {
+    public LeaderDto(String id, String name, String email, String area, String department,
+                     String photo, List<UUID> interestedParticipants, List<UUID> reservedParticipants) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -28,8 +28,8 @@ public class LeaderDto {
     }
 
     // Getters and Setters
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

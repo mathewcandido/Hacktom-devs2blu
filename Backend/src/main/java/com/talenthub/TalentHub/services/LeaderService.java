@@ -37,8 +37,8 @@ public class LeaderService {
         leaderRepository.deleteById(id);
     }
 
-    public Leader update(UUID id, Leader leader){
-        Optional<Leader> oldLeader = leaderRepository.findById(id);
+    public Leader update(String id, Leader leader){
+        Optional<Leader> oldLeader = leaderRepository.findById(UUID.fromString(id));
         if (oldLeader.isEmpty() || oldLeader == null)
             return new Leader();
         Leader newLeader = leader;

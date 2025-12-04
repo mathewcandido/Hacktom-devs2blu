@@ -4,13 +4,12 @@ import com.talenthub.TalentHub.models.enums.Type;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity(name = "timeline_events")
 public class TimelineEvents {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "participant_id", nullable = false)
     private Participant participant;
@@ -21,7 +20,7 @@ public class TimelineEvents {
     private String actorName;
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    public TimelineEvents(UUID id, Participant participant, Type type, String title, String description, String actorName, LocalDateTime createdAt) {
+    public TimelineEvents(String id, Participant participant, Type type, String title, String description, String actorName, LocalDateTime createdAt) {
         this.id = id;
         this.participant = participant;
         this.type = type;
@@ -34,11 +33,11 @@ public class TimelineEvents {
     public TimelineEvents() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

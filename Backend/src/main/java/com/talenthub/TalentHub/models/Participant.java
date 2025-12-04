@@ -4,13 +4,12 @@ import com.talenthub.TalentHub.models.enums.Status;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity(name = "participants")
 public class Participant {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
     private String name;
     @Column(unique = true)
     private String email;
@@ -26,7 +25,7 @@ public class Participant {
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    public Participant(UUID id, String name, String email, String phone, String photoUrl, String area, String batch, Status status, Integer evolution, LocalDateTime startDate, String bio, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Participant(String id, String name, String email, String phone, String photoUrl, String area, String batch, Status status, Integer evolution, LocalDateTime startDate, String bio, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -45,11 +44,11 @@ public class Participant {
     public Participant() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
