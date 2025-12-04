@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { Box, Toolbar } from '@mui/material';
-import Sidebar from '@/components/Sidebar';
-import Header from '@/components/Header';
+import Sidebar from '@/components/Sidebar/Sidebar';
+import Header from '@/components/Header/Header';
 
 interface LayoutProps {
   children: React.ReactNode;

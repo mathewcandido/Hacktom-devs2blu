@@ -1,0 +1,74 @@
+[
+  {
+    "id": "leader-001",
+    "name": "Maria Helena Rodrigues",
+    "email": "maria.helena@devs2blu.com",
+    "area": "FRONTEND",
+    "participantsCount": 8,
+    "avatar": "/avatars/maria-helena.jpg",
+    "phone": "(11) 91234-5678",
+    "linkedin": "https://linkedin.com/in/maria-helena-rodrigues",
+    "experience": "8 anos",
+    "specialties": ["React", "TypeScript", "UI/UX", "Next.js"]
+  },
+  {
+    "id": "leader-002",
+    "name": "João Carlos Mendes",
+    "email": "joao.carlos@devs2blu.com",
+    "area": "BACKEND",
+    "participantsCount": 12,
+    "avatar": "/avatars/joao-carlos.jpg",
+    "phone": "(21) 91234-5678",
+    "linkedin": "https://linkedin.com/in/joao-carlos-mendes",
+    "experience": "10 anos",
+    "specialties": ["Node.js", "Python", "PostgreSQL", "Docker"]
+  },
+  {
+    "id": "leader-003",
+    "name": "Ana Beatriz Costa",
+    "email": "ana.beatriz@devs2blu.com",
+    "area": "FULLSTACK",
+    "participantsCount": 6,
+    "avatar": "/avatars/ana-beatriz.jpg",
+    "phone": "(31) 91234-5678",
+    "linkedin": "https://linkedin.com/in/ana-beatriz-costa",
+    "experience": "7 anos",
+    "specialties": ["React", "Node.js", "MongoDB", "AWS"]
+  },
+  {
+    "id": "leader-004",
+    "name": "Ricardo Silva Santos",
+    "email": "ricardo.silva@devs2blu.com",
+    "area": "MOBILE",
+    "participantsCount": 9,
+    "avatar": "/avatars/ricardo-silva.jpg",
+    "phone": "(47) 91234-5678",
+    "linkedin": "https://linkedin.com/in/ricardo-silva-santos",
+    "experience": "9 anos",
+    "specialties": ["React Native", "Flutter", "iOS", "Android"]
+  },
+  {
+    "id": "leader-005",
+    "name": "Camila Ferreira Lima",
+    "email": "camila.ferreira@devs2blu.com",
+    "area": "FRONTEND",
+    "participantsCount": 7,
+    "avatar": "/avatars/camila-ferreira.jpg",
+    "phone": "(85) 91234-5678",
+    "linkedin": "https://linkedin.com/in/camila-ferreira-lima",
+    "experience": "6 anos",
+    "specialties": ["Vue.js", "Angular", "SASS", "Webpack"]
+  },
+  {
+    "id": "leader-006",
+    "name": "Eduardo Pereira Alves",
+    "email": "eduardo.pereira@devs2blu.com",
+    "area": "BACKEND",
+    "participantsCount": 10,
+    "avatar": "/avatars/eduardo-pereira.jpg",
+    "phone": "(61) 91234-5678",
+    "linkedin": "https://linkedin.com/in/eduardo-pereira-alves",
+    "experience": "11 anos",
+    "specialties": ["Java", "Spring Boot", "MySQL", "Redis"]
+  }
+]
