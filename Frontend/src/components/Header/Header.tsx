@@ -79,7 +79,7 @@ const Header: React.FC = () => {
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           {/* Debug button - only in development */}
-          {process.env.NODE_ENV === 'development' && (
+          {/* {process.env.NODE_ENV === 'development' && (
             <Button
               size="small"
               startIcon={<BugReport />}
@@ -93,7 +93,7 @@ const Header: React.FC = () => {
             >
               Debug
             </Button>
-          )}
+          )} */}
           
           {user && (
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

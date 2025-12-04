@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Grid, Typography, Card, CardContent, Box, Paper } from "@mui/material";
+import React from "react";
+import { Grid, Typography, Box, Paper } from "@mui/material";
 import {
   BarChart,
   Bar,
@@ -15,14 +15,13 @@ import {
   Cell,
   LineChart,
   Line,
+  Legend,
 } from "recharts";
 import Layout from "@/components/Layout";
 import StatsCard from "@/components/StatsCard/StatsCard";
 import { ProtectedRoute } from "../../components/ProtectedRoute";
-import { getParticipants } from "@/services/api";
-import { Participant, ParticipantStatus, Area } from "@/types";
+import { Participant, EnumParticipantStatus, EnumArea } from "@/types";
 import { statusColors, areaColors } from "@/mocks/status";
-import Loading from "../../app/loading";
 
 export interface DashboardProps {
   participants: Participant[];
@@ -30,20 +29,20 @@ export interface DashboardProps {
   stats?: any;
 }
 
-const DashboardScreen: React.FC<DashboardProps> = ({ participants, leaders, stats }) => {
+const DashboardScreen: React.FC<DashboardProps> = ({ participants }) => {
   if (participants.length < 1) {
     return null;
   }
 
   const totalParticipants = participants.length;
   const availableParticipants = participants.filter(
-    (p) => p.status === ParticipantStatus.AVAILABLE
+    (p) => p.status === EnumParticipantStatus.AVAILABLE
   ).length;
   const reservedParticipants = participants.filter(
-    (p) => p.status === ParticipantStatus.RESERVED
+    (p) => p.status === EnumParticipantStatus.RESERVED
   ).length;
   const hiredParticipants = participants.filter(
-    (p) => p.status === ParticipantStatus.HIRED
+    (p) => p.status === EnumParticipantStatus.HIRED
   ).length;
 
   const averageEvolution = Math.round(
@@ -53,42 +52,44 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants, leaders, stat
   // Status distribution for pie chart
   const statusDistribution = [
     {
-      name: ParticipantStatus.IN_TRAINING,
+      name: EnumParticipantStatus.IN_TRAINING,
       value: participants.filter(
-        (p) => p.status === ParticipantStatus.IN_TRAINING
+        (p) => p.status === EnumParticipantStatus.IN_TRAINING
       ).length,
-      color: statusColors[ParticipantStatus.IN_TRAINING].color,
+      color: statusColors[EnumParticipantStatus.IN_TRAINING].color,
     },
     {
-      name: ParticipantStatus.AVAILABLE,
+      name: EnumParticipantStatus.AVAILABLE,
       value: availableParticipants,
-      color: statusColors[ParticipantStatus.AVAILABLE].color,
+      color: statusColors[EnumParticipantStatus.AVAILABLE].color,
     },
     {
-      name: ParticipantStatus.RESERVED,
+      name: EnumParticipantStatus.RESERVED,
       value: reservedParticipants,
-      color: statusColors[ParticipantStatus.RESERVED].color,
+      color: statusColors[EnumParticipantStatus.RESERVED].color,
     },
     {
-      name: ParticipantStatus.HIRED,
+      name: EnumParticipantStatus.HIRED,
       value: hiredParticipants,
-      color: statusColors[ParticipantStatus.HIRED].color,
+      color: statusColors[EnumParticipantStatus.HIRED].color,
     },
   ].filter((item) => item.value > 0);
 
   // Area distribution for bar chart
   const areaDistribution = [
-    Area.DEVELOPMENT,
-    Area.UX_DESIGN,
-    Area.QA,
-    Area.DATA_SCIENCE,
-    Area.PRODUCT,
-    Area.MARKETING,
-  ].map((area) => ({
-    area: area.split(" ")[0], // Shorten names for better display
-    count: participants.filter((p) => p.area === area).length,
-    color: areaColors[area].color,
-  }));
+    EnumArea.DEVELOPMENT,
+    EnumArea.UX_DESIGN,
+    EnumArea.QA,
+    EnumArea.DATA_SCIENCE,
+    EnumArea.PRODUCT,
+    EnumArea.MARKETING,
+  ]
+    .map((area) => ({
+      area: area.replace("_", " "), // Convert UX_DESIGN to UX DESIGN for better display
+      count: participants.filter((p) => p.area === area).length,
+      color: areaColors[area]?.color || "#666",
+    }))
+    .filter((item) => item.count > 0); // Only show areas with participants
 
   // Evolution by batch
   const uniqueBatches = Array.from(new Set(participants.map((p) => p.batch)));
@@ -169,7 +170,7 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants, leaders, stat
 
         {/* Charts */}
         <Grid container spacing={3}>
-          {/* Status Distribution */}
+            {/* Status Distribution */}
           <Grid item xs={12} md={6}>
             <Paper sx={{ p: 3, borderRadius: 2 }}>
               <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
@@ -230,9 +231,13 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants, leaders, stat
 
           {/* Evolution by Batch */}
           <Grid item xs={12}>
-            <Paper sx={{ p: 3, borderRadius: 2 }}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                Evolução Média por Turma
+            <Paper sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{ fontWeight: 600, color: "#1a1a1a" }}
+              >
+                📈 Evolução Média por Turma
               </Typography>
               <Box sx={{ height: 300 }}>
                 <ResponsiveContainer width="100%" height="100%">
