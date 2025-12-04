@@ -1,0 +1,137 @@
+[
+  {
+    "id": "eval-001",
+    "participantId": "550e8400-e29b-41d4-a716-446655440001",
+    "category": "TECHNICAL_SKILLS",
+    "score": 8.5,
+    "feedback": "Demonstra excelente conhecimento em React e TypeScript. Precisa melhorar em testes unitários.",
+    "evaluatedBy": "leader-001",
+    "evaluatedAt": "2024-03-15T10:30:00Z"
+  },
+  {
+    "id": "eval-002",
+    "participantId": "550e8400-e29b-41d4-a716-446655440001",
+    "category": "SOFT_SKILLS",
+    "score": 9.0,
+    "feedback": "Ótima comunicação em equipe e proatividade para resolver problemas.",
+    "evaluatedBy": "leader-001",
+    "evaluatedAt": "2024-03-15T14:20:00Z"
+  },
+  {
+    "id": "eval-003",
+    "participantId": "550e8400-e29b-41d4-a716-446655440001",
+    "category": "PROJECT_DELIVERY",
+    "score": 8.0,
+    "feedback": "Entregou todos os projetos no prazo, com qualidade acima da média.",
+    "evaluatedBy": "leader-001",
+    "evaluatedAt": "2024-03-20T16:45:00Z"
+  },
+  {
+    "id": "eval-004",
+    "participantId": "550e8400-e29b-41d4-a716-446655440002",
+    "category": "TECHNICAL_SKILLS",
+    "score": 9.2,
+    "feedback": "Excelente domínio de Node.js e arquitetura de APIs. Conhecimento sólido em banco de dados.",
+    "evaluatedBy": "leader-002",
+    "evaluatedAt": "2024-03-12T09:15:00Z"
+  },
+  {
+    "id": "eval-005",
+    "participantId": "550e8400-e29b-41d4-a716-446655440002",
+    "category": "SOFT_SKILLS",
+    "score": 7.5,
+    "feedback": "Bom trabalho em equipe, mas pode melhorar a comunicação com o front-end.",
+    "evaluatedBy": "leader-002",
+    "evaluatedAt": "2024-03-12T15:30:00Z"
+  },
+  {
+    "id": "eval-006",
+    "participantId": "550e8400-e29b-41d4-a716-446655440003",
+    "category": "TECHNICAL_SKILLS",
+    "score": 8.8,
+    "feedback": "Boa visão fullstack, domina tanto front quanto back. Precisa se aprofundar mais em DevOps.",
+    "evaluatedBy": "leader-003",
+    "evaluatedAt": "2024-03-18T11:00:00Z"
+  },
+  {
+    "id": "eval-007",
+    "participantId": "550e8400-e29b-41d4-a716-446655440003",
+    "category": "LEADERSHIP",
+    "score": 8.5,
+    "feedback": "Demonstra potencial de liderança, sempre ajuda os colegas com dúvidas.",
+    "evaluatedBy": "leader-003",
+    "evaluatedAt": "2024-03-18T14:20:00Z"
+  },
+  {
+    "id": "eval-008",
+    "participantId": "550e8400-e29b-41d4-a716-446655440004",
+    "category": "TECHNICAL_SKILLS",
+    "score": 6.5,
+    "feedback": "Conhecimento básico em React Native, precisa se dedicar mais aos estudos.",
+    "evaluatedBy": "leader-004",
+    "evaluatedAt": "2024-03-10T10:45:00Z"
+  },
+  {
+    "id": "eval-009",
+    "participantId": "550e8400-e29b-41d4-a716-446655440005",
+    "category": "TECHNICAL_SKILLS",
+    "score": 9.0,
+    "feedback": "Excelente em CSS e animações, domina bem o ecossistema React.",
+    "evaluatedBy": "leader-001",
+    "evaluatedAt": "2024-03-14T13:30:00Z"
+  },
+  {
+    "id": "eval-010",
+    "participantId": "550e8400-e29b-41d4-a716-446655440005",
+    "category": "CREATIVITY",
+    "score": 9.5,
+    "feedback": "Muito criativa nas soluções de UI, sempre propõe melhorias interessantes.",
+    "evaluatedBy": "leader-001",
+    "evaluatedAt": "2024-03-14T15:15:00Z"
+  },
+  {
+    "id": "eval-011",
+    "participantId": "550e8400-e29b-41d4-a716-446655440006",
+    "category": "TECHNICAL_SKILLS",
+    "score": 8.7,
+    "feedback": "Sólido conhecimento em arquitetura de microserviços e boas práticas.",
+    "evaluatedBy": "leader-002",
+    "evaluatedAt": "2024-03-16T10:20:00Z"
+  },
+  {
+    "id": "eval-012",
+    "participantId": "550e8400-e29b-41d4-a716-446655440007",
+    "category": "TECHNICAL_SKILLS",
+    "score": 8.3,
+    "feedback": "Boa evolução no fullstack, domina tanto React quanto Node.js.",
+    "evaluatedBy": "leader-003",
+    "evaluatedAt": "2024-03-19T09:40:00Z"
+  },
+  {
+    "id": "eval-013",
+    "participantId": "550e8400-e29b-41d4-a716-446655440008",
+    "category": "TECHNICAL_SKILLS",
+    "score": 7.0,
+    "feedback": "Conhecimento intermediário em mobile, precisa praticar mais projetos.",
+    "evaluatedBy": "leader-004",
+    "evaluatedAt": "2024-03-11T14:10:00Z"
+  },
+  {
+    "id": "eval-014",
+    "participantId": "550e8400-e29b-41d4-a716-446655440009",
+    "category": "TECHNICAL_SKILLS",
+    "score": 8.9,
+    "feedback": "Excelente em TypeScript e patterns avançados do React.",
+    "evaluatedBy": "leader-001",
+    "evaluatedAt": "2024-03-17T11:25:00Z"
+  },
+  {
+    "id": "eval-015",
+    "participantId": "550e8400-e29b-41d4-a716-446655440010",
+    "category": "TECHNICAL_SKILLS",
+    "score": 8.4,
+    "feedback": "Bom domínio de APIs REST e GraphQL, conhece bem banco de dados.",
+    "evaluatedBy": "leader-002",
+    "evaluatedAt": "2024-03-13T16:00:00Z"
+  }
+]

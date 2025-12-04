@@ -1,0 +1,21 @@
+{
+  "totalParticipants": 20,
+  "activeParticipants": 15,
+  "inactiveParticipants": 3,
+  "suspendedParticipants": 2,
+  "totalLeaders": 6,
+  "totalEvaluations": 15,
+  "averageScore": 8.2,
+  "areasDistribution": {
+    "FRONTEND": 6,
+    "BACKEND": 6,
+    "FULLSTACK": 4,
+    "MOBILE": 4
+  },
+  "monthlyJoins": {
+    "2024-01": 8,
+    "2024-02": 12
+  },
+  "completedProjects": 45,
+  "inProgressProjects": 12
+}
