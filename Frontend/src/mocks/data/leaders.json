@@ -1,74 +1,182 @@
 [
   {
     "id": "leader-001",
-    "name": "Maria Helena Rodrigues",
-    "email": "maria.helena@devs2blu.com",
-    "area": "FRONTEND",
-    "participantsCount": 8,
-    "avatar": "/avatars/maria-helena.jpg",
-    "phone": "(11) 91234-5678",
-    "linkedin": "https://linkedin.com/in/maria-helena-rodrigues",
-    "experience": "8 anos",
-    "specialties": ["React", "TypeScript", "UI/UX", "Next.js"]
+    "name": "Fernanda Rodrigues",
+    "email": "fernanda.rodrigues@hotmail.com",
+    "area": "DATA_SCIENCE",
+    "department": "Qualidade e Testes",
+    "joinDate": "2020-10-17",
+    "avatar": "/avatars/fernanda-rodrigues.jpg"
   },
   {
     "id": "leader-002",
-    "name": "João Carlos Mendes",
-    "email": "joao.carlos@devs2blu.com",
-    "area": "BACKEND",
-    "participantsCount": 12,
-    "avatar": "/avatars/joao-carlos.jpg",
-    "phone": "(21) 91234-5678",
-    "linkedin": "https://linkedin.com/in/joao-carlos-mendes",
-    "experience": "10 anos",
-    "specialties": ["Node.js", "Python", "PostgreSQL", "Docker"]
+    "name": "Ana Monteiro",
+    "email": "ana.monteiro@email.com",
+    "area": "UX_DESIGN",
+    "department": "Marketing e Vendas",
+    "joinDate": "2022-06-03",
+    "avatar": "/avatars/ana-monteiro.jpg"
   },
   {
     "id": "leader-003",
-    "name": "Ana Beatriz Costa",
-    "email": "ana.beatriz@devs2blu.com",
-    "area": "FULLSTACK",
-    "participantsCount": 6,
-    "avatar": "/avatars/ana-beatriz.jpg",
-    "phone": "(31) 91234-5678",
-    "linkedin": "https://linkedin.com/in/ana-beatriz-costa",
-    "experience": "7 anos",
-    "specialties": ["React", "Node.js", "MongoDB", "AWS"]
+    "name": "Juliana Diniz",
+    "email": "juliana.diniz@gmail.com",
+    "area": "PRODUCT",
+    "department": "Marketing e Vendas",
+    "joinDate": "2022-08-30",
+    "avatar": "/avatars/juliana-diniz.jpg"
   },
   {
     "id": "leader-004",
-    "name": "Ricardo Silva Santos",
-    "email": "ricardo.silva@devs2blu.com",
-    "area": "MOBILE",
-    "participantsCount": 9,
-    "avatar": "/avatars/ricardo-silva.jpg",
-    "phone": "(47) 91234-5678",
-    "linkedin": "https://linkedin.com/in/ricardo-silva-santos",
-    "experience": "9 anos",
-    "specialties": ["React Native", "Flutter", "iOS", "Android"]
+    "name": "Diego Martins",
+    "email": "diego.martins@email.com",
+    "area": "DEVELOPMENT",
+    "department": "Dados e Analytics",
+    "joinDate": "2023-09-13",
+    "avatar": "/avatars/diego-martins.jpg"
   },
   {
     "id": "leader-005",
-    "name": "Camila Ferreira Lima",
-    "email": "camila.ferreira@devs2blu.com",
-    "area": "FRONTEND",
-    "participantsCount": 7,
-    "avatar": "/avatars/camila-ferreira.jpg",
-    "phone": "(85) 91234-5678",
-    "linkedin": "https://linkedin.com/in/camila-ferreira-lima",
-    "experience": "6 anos",
-    "specialties": ["Vue.js", "Angular", "SASS", "Webpack"]
+    "name": "Amanda Mendes",
+    "email": "amanda.mendes@outlook.com",
+    "area": "PRODUCT",
+    "department": "Qualidade e Testes",
+    "joinDate": "2022-01-03",
+    "avatar": "/avatars/amanda-mendes.jpg"
   },
   {
     "id": "leader-006",
-    "name": "Eduardo Pereira Alves",
-    "email": "eduardo.pereira@devs2blu.com",
-    "area": "BACKEND",
-    "participantsCount": 10,
-    "avatar": "/avatars/eduardo-pereira.jpg",
-    "phone": "(61) 91234-5678",
-    "linkedin": "https://linkedin.com/in/eduardo-pereira-alves",
-    "experience": "11 anos",
-    "specialties": ["Java", "Spring Boot", "MySQL", "Redis"]
+    "name": "Natalia Melo",
+    "email": "natalia.melo@outlook.com",
+    "area": "QA",
+    "department": "Financeiro",
+    "joinDate": "2022-10-28",
+    "avatar": "/avatars/natalia-melo.jpg"
+  },
+  {
+    "id": "leader-007",
+    "name": "Leandro Horta",
+    "email": "leandro.horta@outlook.com",
+    "area": "QA",
+    "department": "Tecnologia",
+    "joinDate": "2022-01-28",
+    "avatar": "/avatars/leandro-horta.jpg"
+  },
+  {
+    "id": "leader-008",
+    "name": "Beatriz Cruz",
+    "email": "beatriz.cruz@gmail.com",
+    "area": "QA",
+    "department": "Tecnologia",
+    "joinDate": "2024-05-22",
+    "avatar": "/avatars/beatriz-cruz.jpg"
+  },
+  {
+    "id": "leader-009",
+    "name": "Henrique Mendes",
+    "email": "henrique.mendes@outlook.com",
+    "area": "UX_DESIGN",
+    "department": "Tecnologia",
+    "joinDate": "2020-01-12",
+    "avatar": "/avatars/henrique-mendes.jpg"
+  },
+  {
+    "id": "leader-010",
+    "name": "Thiago Barbosa",
+    "email": "thiago.barbosa@hotmail.com",
+    "area": "DEVELOPMENT",
+    "department": "Dados e Analytics",
+    "joinDate": "2022-10-30",
+    "avatar": "/avatars/thiago-barbosa.jpg"
+  },
+  {
+    "id": "leader-011",
+    "name": "Amanda Almeida",
+    "email": "amanda.almeida@gmail.com",
+    "area": "UX_DESIGN",
+    "department": "Recursos Humanos",
+    "joinDate": "2022-08-11",
+    "avatar": "/avatars/amanda-almeida.jpg"
+  },
+  {
+    "id": "leader-012",
+    "name": "Carla Cardoso",
+    "email": "carla.cardoso@gmail.com",
+    "area": "MARKETING",
+    "department": "Marketing e Vendas",
+    "joinDate": "2023-07-20",
+    "avatar": "/avatars/carla-cardoso.jpg"
+  },
+  {
+    "id": "leader-013",
+    "name": "Daniel Machado",
+    "email": "daniel.machado@gmail.com",
+    "area": "PRODUCT",
+    "department": "Recursos Humanos",
+    "joinDate": "2021-11-24",
+    "avatar": "/avatars/daniel-machado.jpg"
+  },
+  {
+    "id": "leader-014",
+    "name": "Ricardo Pinto",
+    "email": "ricardo.pinto@hotmail.com",
+    "area": "PRODUCT",
+    "department": "Qualidade e Testes",
+    "joinDate": "2020-04-03",
+    "avatar": "/avatars/ricardo-pinto.jpg"
+  },
+  {
+    "id": "leader-015",
+    "name": "Luciana Morais",
+    "email": "luciana.morais@hotmail.com",
+    "area": "QA",
+    "department": "Qualidade e Testes",
+    "joinDate": "2023-11-05",
+    "avatar": "/avatars/luciana-morais.jpg"
+  },
+  {
+    "id": "leader-016",
+    "name": "Denise Duarte",
+    "email": "denise.duarte@gmail.com",
+    "area": "PRODUCT",
+    "department": "Marketing e Vendas",
+    "joinDate": "2024-04-28",
+    "avatar": "/avatars/denise-duarte.jpg"
+  },
+  {
+    "id": "leader-017",
+    "name": "Sergio Chagas",
+    "email": "sergio.chagas@email.com",
+    "area": "MARKETING",
+    "department": "Dados e Analytics",
+    "joinDate": "2023-12-17",
+    "avatar": "/avatars/sergio-chagas.jpg"
+  },
+  {
+    "id": "leader-018",
+    "name": "Vinicius Monteiro",
+    "email": "vinicius.monteiro@outlook.com",
+    "area": "MARKETING",
+    "department": "Tecnologia",
+    "joinDate": "2020-10-19",
+    "avatar": "/avatars/vinicius-monteiro.jpg"
+  },
+  {
+    "id": "leader-019",
+    "name": "Natalia Chagas",
+    "email": "natalia.chagas@outlook.com",
+    "area": "DEVELOPMENT",
+    "department": "Marketing e Vendas",
+    "joinDate": "2020-11-23",
+    "avatar": "/avatars/natalia-chagas.jpg"
+  },
+  {
+    "id": "leader-020",
+    "name": "Sergio Martins",
+    "email": "sergio.martins@hotmail.com",
+    "area": "DATA_SCIENCE",
+    "department": "Tecnologia",
+    "joinDate": "2020-02-28",
+    "avatar": "/avatars/sergio-martins.jpg"
   }
 ]

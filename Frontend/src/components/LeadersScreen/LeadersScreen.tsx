@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Box,
   Typography,
@@ -17,12 +17,20 @@ import {
   TableRow,
   Paper,
   LinearProgress,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
 } from '@mui/material';
 import {
   SupervisorAccount,
   Person,
   Business,
-  TrendingUp
+  TrendingUp,
+  FilterList,
+  Clear
 } from '@mui/icons-material';
 import Layout from '@/components/Layout';
 import { ProtectedRoute } from '../ProtectedRoute';
@@ -34,28 +42,65 @@ export interface LeadersScreenProps {
 }
 
 const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
-  // Calculate stats
-  const totalLeaders = leaders.length;
-  const activeLeaders = leaders.filter(leader => 
+  // Filter states
+  const [searchTerm, setSearchTerm] = useState('');
+  const [areaFilter, setAreaFilter] = useState('');
+  const [departmentFilter, setDepartmentFilter] = useState('');
+  const [activityFilter, setActivityFilter] = useState('');
+
+  // Filter and search leaders
+  const filteredLeaders = useMemo(() => {
+    return leaders.filter(leader => {
+      const matchesSearch = leader.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           leader.email.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesArea = !areaFilter || leader.area === areaFilter;
+      const matchesDepartment = !departmentFilter || leader.department === departmentFilter;
+      
+      let matchesActivity = true;
+      if (activityFilter === 'active') {
+        matchesActivity = leader.interestedParticipants.length > 0 || leader.reservedParticipants.length > 0;
+      } else if (activityFilter === 'inactive') {
+        matchesActivity = leader.interestedParticipants.length === 0 && leader.reservedParticipants.length === 0;
+      }
+      
+      return matchesSearch && matchesArea && matchesDepartment && matchesActivity;
+    });
+  }, [leaders, searchTerm, areaFilter, departmentFilter, activityFilter]);
+
+  // Calculate stats based on filtered leaders
+  const totalLeaders = filteredLeaders.length;
+  const activeLeaders = filteredLeaders.filter(leader => 
     leader.interestedParticipants.length > 0 || leader.reservedParticipants.length > 0
   ).length;
-  const totalInterested = leaders.reduce((sum, leader) => sum + leader.interestedParticipants.length, 0);
-  const totalReserved = leaders.reduce((sum, leader) => sum + leader.reservedParticipants.length, 0);
+  const totalInterested = filteredLeaders.reduce((sum, leader) => sum + leader.interestedParticipants.length, 0);
+  const totalReserved = filteredLeaders.reduce((sum, leader) => sum + leader.reservedParticipants.length, 0);
 
-  // Get departments
-  const departments = Array.from(new Set(leaders.map(leader => leader.department)));
+  // Get unique values for filter options
+  const uniqueAreas = Array.from(new Set(leaders.map(leader => leader.area)));
+  const uniqueDepartments = Array.from(new Set(leaders.map(leader => leader.department)));
+
+  // Get departments stats based on filtered data
+  const departments = Array.from(new Set(filteredLeaders.map(leader => leader.department)));
   const departmentStats = departments.map(dept => ({
     department: dept,
-    count: leaders.filter(leader => leader.department === dept).length,
-    interested: leaders.filter(leader => leader.department === dept)
+    count: filteredLeaders.filter(leader => leader.department === dept).length,
+    interested: filteredLeaders.filter(leader => leader.department === dept)
       .reduce((sum, leader) => sum + leader.interestedParticipants.length, 0)
   }));
 
-  // Most active leader
-  const mostActiveLeader = leaders.reduce((prev, current) => 
+  // Most active leader from filtered results
+  const mostActiveLeader = filteredLeaders.length > 0 ? filteredLeaders.reduce((prev, current) => 
     (current.interestedParticipants.length + current.reservedParticipants.length) > 
     (prev.interestedParticipants.length + prev.reservedParticipants.length) ? current : prev
-  );
+  ) : null;
+
+  // Clear all filters
+  const clearFilters = () => {
+    setSearchTerm('');
+    setAreaFilter('');
+    setDepartmentFilter('');
+    setActivityFilter('');
+  };
 
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('pt-BR', {
@@ -133,6 +178,88 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
           </Grid>
         </Grid>
 
+        {/* Filters Section */}
+        <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+            <FilterList color="primary" />
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              Filtros
+            </Typography>
+          </Box>
+          
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Buscar por nome ou email"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                variant="outlined"
+              />
+            </Grid>
+            
+            <Grid item xs={12} sm={6} md={2}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Área</InputLabel>
+                <Select
+                  value={areaFilter}
+                  label="Área"
+                  onChange={(e) => setAreaFilter(e.target.value)}
+                >
+                  <MenuItem value="">Todas</MenuItem>
+                  {uniqueAreas.map(area => (
+                    <MenuItem key={area} value={area}>{area}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            
+            <Grid item xs={12} sm={6} md={3}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Departamento</InputLabel>
+                <Select
+                  value={departmentFilter}
+                  label="Departamento"
+                  onChange={(e) => setDepartmentFilter(e.target.value)}
+                >
+                  <MenuItem value="">Todos</MenuItem>
+                  {uniqueDepartments.map(dept => (
+                    <MenuItem key={dept} value={dept}>{dept}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            
+            <Grid item xs={12} sm={6} md={2}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Atividade</InputLabel>
+                <Select
+                  value={activityFilter}
+                  label="Atividade"
+                  onChange={(e) => setActivityFilter(e.target.value)}
+                >
+                  <MenuItem value="">Todos</MenuItem>
+                  <MenuItem value="active">Ativos</MenuItem>
+                  <MenuItem value="inactive">Inativos</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            
+            <Grid item xs={12} sm={6} md={2}>
+              <Button
+                fullWidth
+                variant="outlined"
+                startIcon={<Clear />}
+                onClick={clearFilters}
+                sx={{ height: '40px' }}
+              >
+                Limpar
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+
         <Grid container spacing={3}>
           {/* Leaders List */}
           <Grid item xs={12} lg={8}>
@@ -154,54 +281,64 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {leaders.map((leader) => (
-                      <TableRow key={leader.id} hover>
-                        <TableCell>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <Avatar src={leader.photo} sx={{ width: 40, height: 40 }}>
-                              {leader.name[0]}
-                            </Avatar>
-                            <Box>
-                              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                                {leader.name}
-                              </Typography>
-                              <Typography variant="body2" color="textSecondary">
-                                {leader.email}
-                              </Typography>
+                    {filteredLeaders.length > 0 ? (
+                      filteredLeaders.map((leader) => (
+                        <TableRow key={leader.id} hover>
+                          <TableCell>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                              <Avatar src={leader.photo} sx={{ width: 40, height: 40 }}>
+                                {leader.name[0]}
+                              </Avatar>
+                              <Box>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                  {leader.name}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary">
+                                  {leader.email}
+                                </Typography>
+                              </Box>
                             </Box>
-                          </Box>
+                          </TableCell>
+                          <TableCell>
+                            <Chip
+                              label={leader.area}
+                              size="small"
+                              sx={{
+                                backgroundColor: getAreaColor(leader.area) + '20',
+                                color: getAreaColor(leader.area),
+                                fontWeight: 500,
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell>{leader.department}</TableCell>
+                          <TableCell align="center">
+                            <Chip 
+                              label={leader.interestedParticipants.length} 
+                              size="small" 
+                              color="primary" 
+                              variant="outlined"
+                            />
+                          </TableCell>
+                          <TableCell align="center">
+                            <Chip 
+                              label={leader.reservedParticipants.length} 
+                              size="small" 
+                              color="secondary" 
+                              variant="outlined"
+                            />
+                          </TableCell>
+                          <TableCell>{formatDate(leader.joinDate)}</TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={6} align="center">
+                          <Typography variant="body2" color="textSecondary" sx={{ py: 4 }}>
+                            Nenhum líder encontrado com os filtros aplicados
+                          </Typography>
                         </TableCell>
-                        <TableCell>
-                          <Chip
-                            label={leader.area}
-                            size="small"
-                            sx={{
-                              backgroundColor: getAreaColor(leader.area) + '20',
-                              color: getAreaColor(leader.area),
-                              fontWeight: 500,
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell>{leader.department}</TableCell>
-                        <TableCell align="center">
-                          <Chip 
-                            label={leader.interestedParticipants.length} 
-                            size="small" 
-                            color="primary" 
-                            variant="outlined"
-                          />
-                        </TableCell>
-                        <TableCell align="center">
-                          <Chip 
-                            label={leader.reservedParticipants.length} 
-                            size="small" 
-                            color="secondary" 
-                            variant="outlined"
-                          />
-                        </TableCell>
-                        <TableCell>{formatDate(leader.joinDate)}</TableCell>
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -215,27 +352,33 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
               <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
                 Líder Mais Ativo
               </Typography>
-              <Card variant="outlined" sx={{ p: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                  <Avatar src={mostActiveLeader.photo} sx={{ width: 50, height: 50 }}>
-                    {mostActiveLeader.name[0]}
-                  </Avatar>
-                  <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                      {mostActiveLeader.name}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {mostActiveLeader.area}
-                    </Typography>
+              {mostActiveLeader ? (
+                <Card variant="outlined" sx={{ p: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                    <Avatar src={mostActiveLeader.photo} sx={{ width: 50, height: 50 }}>
+                      {mostActiveLeader.name[0]}
+                    </Avatar>
+                    <Box>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                        {mostActiveLeader.name}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {mostActiveLeader.area}
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography variant="body2">
-                    {mostActiveLeader.interestedParticipants.length + mostActiveLeader.reservedParticipants.length} interações
-                  </Typography>
-                  <TrendingUp color="success" />
-                </Box>
-              </Card>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="body2">
+                      {mostActiveLeader.interestedParticipants.length + mostActiveLeader.reservedParticipants.length} interações
+                    </Typography>
+                    <TrendingUp color="success" />
+                  </Box>
+                </Card>
+              ) : (
+                <Typography variant="body2" color="textSecondary">
+                  Nenhum líder encontrado com os filtros aplicados
+                </Typography>
+              )}
             </Paper>
 
             {/* Department Statistics */}

@@ -50,7 +50,9 @@ const getTimelineByParticipant = (participantId: string): TimelineEvent[] => {
 export async function getParticipants(): Promise<Participant[]> {
   await delay(500);
   
-  return participantsData.map(p => ({
+  const batches = ['Turma 2024-1', 'Turma 2024-2', 'Turma 2023-2', 'Turma 2023-1', 'Turma 2022-2'];
+  
+  return participantsData.map((p, index) => ({
     id: p.id,
     name: p.name,
     email: p.email,
@@ -59,10 +61,10 @@ export async function getParticipants(): Promise<Participant[]> {
     startDate: new Date(p.joinDate),
     photo: p.avatar,
     phone: p.phone,
-    batch: '2024-1',
+    batch: batches[index % batches.length], // Varia as turmas
     bio: `Participante da trilha ${p.area}`,
     skills: [],
-    evolution: 0,
+    evolution: Math.floor(Math.random() * 50) + 50,
     evaluations: getEvaluationsByParticipant(p.id),
     timeline: getTimelineByParticipant(p.id)
   }));
@@ -84,6 +86,9 @@ export async function getParticipant(id: string): Promise<Participant | null> {
 
   console.log(`[API] Participante encontrado: ${participant.name}`);
   
+  const batches = ['Turma 2024-1', 'Turma 2024-2', 'Turma 2023-2', 'Turma 2023-1', 'Turma 2022-2'];
+  const index = participantsData.findIndex(p => p.id === participant.id);
+  
   return {
     id: participant.id,
     name: participant.name,
@@ -93,10 +98,10 @@ export async function getParticipant(id: string): Promise<Participant | null> {
     startDate: new Date(participant.joinDate),
     photo: participant.avatar,
     phone: participant.phone,
-    batch: '2024-1',
+    batch: batches[index % batches.length], // Varia as turmas
     bio: `Participante da trilha ${participant.area}`,
     skills: [],
-    evolution: 0,
+    evolution: Math.floor(Math.random() * 50) + 50,
     evaluations: getEvaluationsByParticipant(participant.id),
     timeline: getTimelineByParticipant(participant.id)
   };
@@ -105,17 +110,41 @@ export async function getParticipant(id: string): Promise<Participant | null> {
 export async function getLeaders(): Promise<Leader[]> {
   await delay(400);
   
-  return leadersData.map(leader => ({
-    id: leader.id,
-    name: leader.name,
-    email: leader.email,
-    photo: leader.avatar,
-    area: leader.area as EnumArea,
-    department: leader.area,
-    interestedParticipants: [],
-    reservedParticipants: [],
-    joinDate: new Date('2024-01-01')
-  }));
+  return leadersData.map((leader, index) => {
+    // Simula alguns interesses e reservas baseado no índice
+    const interestedCount = Math.floor(Math.random() * 6); // 0-5 interessados
+    const reservedCount = Math.floor(Math.random() * 4); // 0-3 reservados
+    
+    const interestedParticipants = [];
+    const reservedParticipants = [];
+    
+    // Gera IDs fake baseados nos participantes disponíveis
+    for (let i = 0; i < interestedCount; i++) {
+      const randomParticipant = participantsData[Math.floor(Math.random() * participantsData.length)];
+      if (randomParticipant && !interestedParticipants.includes(randomParticipant.id)) {
+        interestedParticipants.push(randomParticipant.id);
+      }
+    }
+    
+    for (let i = 0; i < reservedCount; i++) {
+      const randomParticipant = participantsData[Math.floor(Math.random() * participantsData.length)];
+      if (randomParticipant && !reservedParticipants.includes(randomParticipant.id)) {
+        reservedParticipants.push(randomParticipant.id);
+      }
+    }
+    
+    return {
+      id: leader.id,
+      name: leader.name,
+      email: leader.email,
+      photo: leader.avatar,
+      area: leader.area as EnumArea,
+      department: leader.department || leader.area,
+      interestedParticipants,
+      reservedParticipants,
+      joinDate: new Date(leader.joinDate || '2024-01-01')
+    };
+  });
 }
 
 export async function getLeader(id: string): Promise<Leader | null> {

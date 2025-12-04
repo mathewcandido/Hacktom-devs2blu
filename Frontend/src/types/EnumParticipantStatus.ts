@@ -1,6 +1,6 @@
 export enum EnumParticipantStatus {
-  IN_TRAINING = 'Em Formação',
-  AVAILABLE = 'Disponível',
-  RESERVED = 'Reservado',
-  HIRED = 'Contratado'
+  IN_TRAINING = 'IN_TRAINING',
+  AVAILABLE = 'AVAILABLE',
+  RESERVED = 'RESERVED',
+  HIRED = 'HIRED'
 }
