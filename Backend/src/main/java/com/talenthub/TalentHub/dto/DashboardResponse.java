@@ -3,15 +3,15 @@ package com.talenthub.TalentHub.dto;
 public class DashboardResponse {
     private Integer totalParticipants;
     private Integer availableParticipants;
-    private Integer reservedPaticipants;
+    private Integer reservedParticipants;
     private Integer hiredParticipants;
     private Double averageEvolution;
     private Integer activeLeaders;
 
-    public DashboardResponse(Integer totalParticipants, Integer availableParticipants, Integer reservedPaticipants, Integer hiredParticipants, Double averageEvolution, Integer activeLeaders) {
+    public DashboardResponse(Integer totalParticipants, Integer availableParticipants, Integer reservedParticipants, Integer hiredParticipants, Double averageEvolution, Integer activeLeaders) {
         this.totalParticipants = totalParticipants;
         this.availableParticipants = availableParticipants;
-        this.reservedPaticipants = reservedPaticipants;
+        this.reservedParticipants = reservedParticipants;
         this.hiredParticipants = hiredParticipants;
         this.averageEvolution = averageEvolution;
         this.activeLeaders = activeLeaders;
@@ -36,12 +36,12 @@ public class DashboardResponse {
         this.availableParticipants = availableParticipants;
     }
 
-    public Integer getReservedPaticipants() {
-        return reservedPaticipants;
+    public Integer getReservedParticipants() {
+        return reservedParticipants;
     }
 
-    public void setReservedPaticipants(Integer reservedPaticipants) {
-        this.reservedPaticipants = reservedPaticipants;
+    public void setReservedParticipants(Integer reservedParticipants) {
+        this.reservedParticipants = reservedParticipants;
     }
 
     public Integer getHiredParticipants() {

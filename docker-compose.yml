@@ -9,13 +9,30 @@ services:
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
+      - NEXT_PUBLIC_API_URL=http://localhost:8081
+    depends_on:
+      - backend
+    networks:
+      - app-network
 
-  # Backend API (placeholder leve)
+  # Backend Java Spring Boot
   backend:
-    image: node:20-alpine
-    command: sh -c "echo 'Backend placeholder - Ready for development' && sleep infinity"
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "8081:8080"
+    restart: unless-stopped
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/talent_incubator
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - app-network
 
   # Database MySQL (leve)
   database:
@@ -27,12 +44,27 @@ services:
       - MYSQL_DATABASE=talent_incubator
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./Backend/init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      timeout: 20s
+      retries: 10
 
   # Adminer - Interface MySQL (leve)
   adminer:
     image: adminer:4.8.1
     ports:
-      - "8080:8080"
+      - "8085:8080"
+    depends_on:
+      - database
+    networks:
+      - app-network
 
 volumes:
   mysql_data:
+
+networks:
+  app-network:
+    driver: bridge
