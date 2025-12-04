@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS participants (
     photo_url TEXT,
     area VARCHAR(50) NOT NULL,
     batch VARCHAR(50) NOT NULL,
-    status ENUM('Em Formação', 'Disponível', 'Reservado', 'Contratado') DEFAULT 'Em Formação',
+    status ENUM('EM_FORMACAO', 'DISPONIVEL', 'RESERVADO', 'CONTRATADO') DEFAULT 'EM_FORMACAO',
     evolution INT DEFAULT 0,
     start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     bio TEXT,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS evaluations (
     evaluator_name VARCHAR(255) NOT NULL,
     score INT CHECK (score >= 0 AND score <= 10),
     feedback TEXT NOT NULL,
-    category ENUM('Técnica', 'Comportamental', 'Liderança', 'Comunicação') NOT NULL,
+    category ENUM('Tecnica', 'Comportamental', 'Lideranca', 'Comunicacao') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE,
     FOREIGN KEY (evaluator_id) REFERENCES leaders(id) ON DELETE SET NULL,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS evaluations (
 CREATE TABLE IF NOT EXISTS timeline_events (
     id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()),
     participant_id VARCHAR(36),
-    type ENUM('Avaliação', 'Reunião', 'Projeto', 'Feedback', 'Milestone') NOT NULL,
+    type ENUM('AVALIACAO', 'REUNIAO', 'PROJETO', 'FEEDBACK', 'MILESTONE') NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     actor_name VARCHAR(255),
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS timeline_events (
 CREATE TABLE IF NOT EXISTS participant_skills (
     participant_id VARCHAR(36),
     skill_name VARCHAR(100),
-    level ENUM('Iniciante', 'Intermediário', 'Avançado', 'Expert') DEFAULT 'Intermediário',
+    level ENUM('INICIANTE', 'INTERMEDIARIO', 'AVANCADO', 'EXPERT') DEFAULT 'INTERMEDIARIO',
     PRIMARY KEY (participant_id, skill_name),
     FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE,
     INDEX idx_skill (skill_name)
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS leader_interests (
     id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()),
     leader_id VARCHAR(36),
     participant_id VARCHAR(36),
-    status ENUM('Interesse', 'Reservado', 'Contratado', 'Rejeitado') DEFAULT 'Interesse',
+    status ENUM('INTERESSE', 'RESERVADO', 'CONTRATADO', 'REJEITADO') DEFAULT 'INTERESSE',
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -98,14 +98,14 @@ CREATE TABLE IF NOT EXISTS leader_interests (
 
 -- Inserir dados de exemplo para participantes
 INSERT INTO participants (name, email, phone, area, batch, status, evolution, bio) VALUES
-('João Silva', 'joao.silva@example.com', '(11) 99999-1111', 'Desenvolvimento', 'Turma 2024-2', 'Disponível', 85, 'Desenvolvedor full-stack com experiência em React e Node.js'),
-('Maria Santos', 'maria.santos@example.com', '(11) 99999-2222', 'UX/UI Design', 'Turma 2024-2', 'Em Formação', 70, 'Designer focada em experiência do usuário e interfaces intuitivas'),
-('Pedro Costa', 'pedro.costa@example.com', '(11) 99999-3333', 'Quality Assurance', 'Turma 2024-1', 'Reservado', 90, 'QA Engineer especializado em automação de testes'),
-('Ana Oliveira', 'ana.oliveira@example.com', '(11) 99999-4444', 'Desenvolvimento', 'Turma 2024-2', 'Disponível', 78, 'Desenvolvedora frontend especializada em React e TypeScript'),
-('Carlos Ferreira', 'carlos.ferreira@example.com', '(11) 99999-5555', 'Data Science', 'Turma 2024-1', 'Contratado', 95, 'Cientista de dados com expertise em Python e Machine Learning'),
-('Juliana Lima', 'juliana.lima@example.com', '(11) 99999-6666', 'UX/UI Design', 'Turma 2024-2', 'Disponível', 82, 'UX Designer com foco em design thinking e prototipagem'),
-('Rafael Souza', 'rafael.souza@example.com', '(11) 99999-7777', 'DevOps', 'Turma 2024-1', 'Disponível', 88, 'DevOps Engineer especializado em AWS e containerização'),
-('Fernanda Alves', 'fernanda.alves@example.com', '(11) 99999-8888', 'Quality Assurance', 'Turma 2024-2', 'Em Formação', 65, 'QA com foco em testes manuais e automatizados');
+('João Silva', 'joao.silva@example.com', '(11) 99999-1111', 'Desenvolvimento', 'Turma 2024-2', 'DISPONIVEL', 85, 'Desenvolvedor full-stack com experiência em React e Node.js'),
+('Maria Santos', 'maria.santos@example.com', '(11) 99999-2222', 'UX/UI Design', 'Turma 2024-2', 'EM_FORMACAO', 70, 'Designer focada em experiência do usuário e interfaces intuitivas'),
+('Pedro Costa', 'pedro.costa@example.com', '(11) 99999-3333', 'Quality Assurance', 'Turma 2024-1', 'RESERVADO', 90, 'QA Engineer especializado em automação de testes'),
+('Ana Oliveira', 'ana.oliveira@example.com', '(11) 99999-4444', 'Desenvolvimento', 'Turma 2024-2', 'DISPONIVEL', 78, 'Desenvolvedora frontend especializada em React e TypeScript'),
+('Carlos Ferreira', 'carlos.ferreira@example.com', '(11) 99999-5555', 'Data Science', 'Turma 2024-1', 'CONTRATADO', 95, 'Cientista de dados com expertise em Python e Machine Learning'),
+('Juliana Lima', 'juliana.lima@example.com', '(11) 99999-6666', 'UX/UI Design', 'Turma 2024-2', 'DISPONIVEL', 82, 'UX Designer com foco em design thinking e prototipagem'),
+('Rafael Souza', 'rafael.souza@example.com', '(11) 99999-7777', 'DevOps', 'Turma 2024-1', 'DISPONIVEL', 88, 'DevOps Engineer especializado em AWS e containerização'),
+('Fernanda Alves', 'fernanda.alves@example.com', '(11) 99999-8888', 'Quality Assurance', 'Turma 2024-2', 'EM_FORMACAO', 65, 'QA com foco em testes manuais e automatizados');
 
 -- Inserir dados de exemplo para líderes
 INSERT INTO leaders (name, email, area, department) VALUES
@@ -122,14 +122,14 @@ INSERT INTO leaders (name, email, area, department) VALUES
 INSERT INTO participant_skills (participant_id, skill_name, level)
 SELECT p.id, skill, level FROM participants p
 CROSS JOIN (
-    SELECT 'React' as skill, 'Avançado' as level UNION ALL
-    SELECT 'Node.js', 'Intermediário' UNION ALL
-    SELECT 'TypeScript', 'Avançado' UNION ALL
-    SELECT 'JavaScript', 'Expert' UNION ALL
-    SELECT 'HTML/CSS', 'Expert' UNION ALL
-    SELECT 'Git', 'Avançado' UNION ALL
-    SELECT 'Docker', 'Intermediário' UNION ALL
-    SELECT 'AWS', 'Iniciante'
+    SELECT 'React' as skill, 'AVANCADO' as level UNION ALL
+    SELECT 'Node.js', 'INTERMEDIARIO' UNION ALL
+    SELECT 'TypeScript', 'AVANCADO' UNION ALL
+    SELECT 'JavaScript', 'EXPERT' UNION ALL
+    SELECT 'HTML/CSS', 'EXPERT' UNION ALL
+    SELECT 'Git', 'AVANCADO' UNION ALL
+    SELECT 'Docker', 'INTERMEDIARIO' UNION ALL
+    SELECT 'AWS', 'INICIANTE'
 ) skills
 WHERE p.area = 'Desenvolvimento'
 LIMIT 20;
@@ -137,13 +137,13 @@ LIMIT 20;
 INSERT INTO participant_skills (participant_id, skill_name, level)
 SELECT p.id, skill, level FROM participants p
 CROSS JOIN (
-    SELECT 'Figma' as skill, 'Expert' as level UNION ALL
-    SELECT 'Adobe XD', 'Avançado' UNION ALL
-    SELECT 'Sketch', 'Intermediário' UNION ALL
-    SELECT 'Photoshop', 'Avançado' UNION ALL
-    SELECT 'Illustrator', 'Intermediário' UNION ALL
-    SELECT 'Prototyping', 'Expert' UNION ALL
-    SELECT 'User Research', 'Avançado'
+    SELECT 'Figma' as skill, 'EXPERT' as level UNION ALL
+    SELECT 'Adobe XD', 'AVANCADO' UNION ALL
+    SELECT 'Sketch', 'INTERMEDIARIO' UNION ALL
+    SELECT 'Photoshop', 'AVANCADO' UNION ALL
+    SELECT 'Illustrator', 'INTERMEDIARIO' UNION ALL
+    SELECT 'Prototyping', 'EXPERT' UNION ALL
+    SELECT 'User Research', 'AVANCADO'
 ) skills
 WHERE p.area = 'UX/UI Design'
 LIMIT 14;
@@ -156,7 +156,7 @@ SELECT
     l.name,
     FLOOR(6 + RAND() * 5), -- Score entre 6 e 10
     CONCAT('Avaliação detalhada do participante ', p.name, '. Demonstrou boa evolução em ', p.area),
-    'Técnica'
+    'Tecnica'
 FROM participants p
 CROSS JOIN leaders l
 WHERE RAND() < 0.3 -- 30% de chance de ter avaliação
@@ -166,7 +166,7 @@ LIMIT 15;
 INSERT INTO timeline_events (participant_id, type, title, description, actor_name)
 SELECT
     p.id,
-    'Avaliação',
+    'AVALIACAO',
     'Avaliação Técnica Mensal',
     CONCAT('Avaliação técnica realizada para ', p.name, ' na área de ', p.area),
     l.name
@@ -178,7 +178,7 @@ LIMIT 20;
 INSERT INTO timeline_events (participant_id, type, title, description, actor_name)
 SELECT
     p.id,
-    'Projeto',
+    'PROJETO',
     'Entrega de Projeto',
     CONCAT('Projeto final entregue por ', p.name, ' com sucesso'),
     'Sistema'
