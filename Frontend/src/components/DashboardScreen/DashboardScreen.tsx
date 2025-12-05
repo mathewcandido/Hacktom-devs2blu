@@ -93,20 +93,24 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants }) => {
 
   // Evolution by batch
   const uniqueBatches = Array.from(new Set(participants.map((p) => p.batch)));
+
   const evolutionByBatch = uniqueBatches
     .map((batch) => {
       const batchParticipants = participants.filter((p) => p.batch === batch);
+
       const avgEvolution = Math.round(
-        batchParticipants.reduce((sum, p) => sum + p.evolution, 0) /
-          batchParticipants.length
+        batchParticipants.reduce(
+          (sum, p) => sum + (Number(p.evolution) || 0),
+          0
+        ) / batchParticipants.length
       );
+
       return {
-        batch: batch.replace("Turma ", ""),
-        evolution: avgEvolution,
-        count: batchParticipants.length,
+        batch: String(batch).replace("Turma ", ""),
+        evolution: Number.isFinite(avgEvolution) ? avgEvolution : 0,
       };
     })
-    .sort((a, b) => a.batch.localeCompare(b.batch));
+    .sort((a, b) => String(a.batch).localeCompare(String(b.batch)));
 
   return (
     <ProtectedRoute>
@@ -170,7 +174,7 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants }) => {
 
         {/* Charts */}
         <Grid container spacing={3}>
-            {/* Status Distribution */}
+          {/* Status Distribution */}
           <Grid item xs={12} md={6}>
             <Paper sx={{ p: 3, borderRadius: 2 }}>
               <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>

@@ -9,26 +9,66 @@ import {
   EnumTimelineEventType
 } from '@/types';
 
-// Import JSON data
-import participantsData from '../mocks/data/participants.json';
-import leadersData from '../mocks/data/leaders.json';
-import evaluationsData from '../mocks/data/evaluations.json';
-import timelineEventsData from '../mocks/data/timeline-events.json';
-import statsData from '../mocks/data/stats.json';
-import academyData from '../mocks/data/academy.json';
+// Dynamic data loading for both development and production
+let participantsData: any = null;
+let leadersData: any = null;
+let evaluationsData: any = null;
+let timelineEventsData: any = null;
+let statsData: any = null;
+let academyData: any = null;
+
+// Load JSON data dynamically
+const loadJsonData = async () => {
+  if (typeof window !== 'undefined') {
+    // Client-side loading
+    if (!participantsData) {
+      const [participants, leaders, evaluations, timeline, stats, academy] = await Promise.all([
+        fetch('/data/participants.json').then(r => r.json()),
+        fetch('/data/leaders.json').then(r => r.json()),
+        fetch('/data/evaluations.json').then(r => r.json()),
+        fetch('/data/timeline-events.json').then(r => r.json()),
+        fetch('/data/stats.json').then(r => r.json()),
+        fetch('/data/academy.json').then(r => r.json())
+      ]);
+      
+      participantsData = participants;
+      leadersData = leaders;
+      evaluationsData = evaluations;
+      timelineEventsData = timeline;
+      statsData = stats;
+      academyData = academy;
+    }
+  } else {
+    // Server-side loading (for SSR)
+    if (!participantsData) {
+      const fs = await import('fs');
+      const path = await import('path');
+      
+      const dataPath = path.join(process.cwd(), 'public/data');
+      participantsData = JSON.parse(fs.readFileSync(path.join(dataPath, 'participants.json'), 'utf8'));
+      leadersData = JSON.parse(fs.readFileSync(path.join(dataPath, 'leaders.json'), 'utf8'));
+      evaluationsData = JSON.parse(fs.readFileSync(path.join(dataPath, 'evaluations.json'), 'utf8'));
+      timelineEventsData = JSON.parse(fs.readFileSync(path.join(dataPath, 'timeline-events.json'), 'utf8'));
+      statsData = JSON.parse(fs.readFileSync(path.join(dataPath, 'stats.json'), 'utf8'));
+      academyData = JSON.parse(fs.readFileSync(path.join(dataPath, 'academy.json'), 'utf8'));
+    }
+  }
+};
 
 // Simulation delay for API calls
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Helper functions to get related data
 const getEvaluationsByParticipant = (participantId: string): Evaluation[] => {
+  if (!evaluationsData || !leadersData) return [];
+  
   return evaluationsData
-    .filter(evaluation => evaluation.participantId === participantId)
-    .map(evaluation => ({
+    .filter((evaluation: any) => evaluation.participantId === participantId)
+    .map((evaluation: any) => ({
       id: evaluation.id,
       participantId: evaluation.participantId,
       evaluatorId: evaluation.evaluatedBy,
-      evaluatorName: leadersData.find(l => l.id === evaluation.evaluatedBy)?.name || 'Avaliador',
+      evaluatorName: leadersData.find((l: any) => l.id === evaluation.evaluatedBy)?.name || 'Avaliador',
       score: evaluation.score,
       feedback: evaluation.feedback,
       date: new Date(evaluation.evaluatedAt),
@@ -37,9 +77,11 @@ const getEvaluationsByParticipant = (participantId: string): Evaluation[] => {
 };
 
 const getTimelineByParticipant = (participantId: string): TimelineEvent[] => {
+  if (!timelineEventsData) return [];
+  
   return timelineEventsData
-    .filter(event => event.participantId === participantId)
-    .map(event => ({
+    .filter((event: any) => event.participantId === participantId)
+    .map((event: any) => ({
       ...event,
       type: event.type as EnumTimelineEventType,
       date: new Date(event.date)
@@ -48,11 +90,12 @@ const getTimelineByParticipant = (participantId: string): TimelineEvent[] => {
 
 // API Functions
 export async function getParticipants(): Promise<Participant[]> {
+  await loadJsonData();
   await delay(500);
   
   const batches = ['Turma 2024-1', 'Turma 2024-2', 'Turma 2023-2', 'Turma 2023-1', 'Turma 2022-2'];
   
-  return participantsData.map((p, index) => ({
+  return participantsData.map((p: any, index: number) => ({
     id: p.id,
     name: p.name,
     email: p.email,
@@ -71,11 +114,12 @@ export async function getParticipants(): Promise<Participant[]> {
 }
 
 export async function getParticipant(id: string): Promise<Participant | null> {
+  await loadJsonData();
   await delay(300);
   
   console.log(`[API] Buscando participante com ID: ${id}`);
   
-  const participant = participantsData.find(p => p.id === id);
+  const participant = participantsData.find((p: any) => p.id === id);
   
   if (!participant) {
     console.log(`[API] Participante não encontrado. IDs disponíveis:`, 
@@ -108,9 +152,10 @@ export async function getParticipant(id: string): Promise<Participant | null> {
 }
 
 export async function getLeaders(): Promise<Leader[]> {
+  await loadJsonData();
   await delay(400);
   
-  return leadersData.map((leader, index) => {
+  return leadersData.map((leader: any, index: number) => {
     // Simula alguns interesses e reservas baseado no índice
     const interestedCount = Math.floor(Math.random() * 6); // 0-5 interessados
     const reservedCount = Math.floor(Math.random() * 4); // 0-3 reservados
@@ -137,9 +182,9 @@ export async function getLeaders(): Promise<Leader[]> {
       id: leader.id,
       name: leader.name,
       email: leader.email,
-      photo: leader.avatar,
+      photo: leader.avatar || '/default-avatar.jpg',
       area: leader.area as EnumArea,
-      department: leader.department || leader.area,
+      department: leader.department || 'Não especificado',
       interestedParticipants,
       reservedParticipants,
       joinDate: new Date(leader.joinDate || '2024-01-01')
@@ -148,9 +193,10 @@ export async function getLeaders(): Promise<Leader[]> {
 }
 
 export async function getLeader(id: string): Promise<Leader | null> {
+  await loadJsonData();
   await delay(300);
   
-  const leader = leadersData.find(l => l.id === id);
+  const leader = leadersData.find((l: any) => l.id === id);
   
   if (!leader) {
     return null;
@@ -170,13 +216,14 @@ export async function getLeader(id: string): Promise<Leader | null> {
 }
 
 export async function getEvaluations(): Promise<Evaluation[]> {
+  await loadJsonData();
   await delay(300);
   
-  return evaluationsData.map(evaluation => ({
+  return evaluationsData.map((evaluation: any) => ({
     id: evaluation.id,
     participantId: evaluation.participantId,
     evaluatorId: evaluation.evaluatedBy,
-    evaluatorName: leadersData.find(l => l.id === evaluation.evaluatedBy)?.name || 'Avaliador',
+      evaluatorName: leadersData?.find((l: any) => l.id === evaluation.evaluatedBy)?.name || 'Avaliador',
     score: evaluation.score,
     feedback: evaluation.feedback,
     date: new Date(evaluation.evaluatedAt),
@@ -185,6 +232,7 @@ export async function getEvaluations(): Promise<Evaluation[]> {
 }
 
 export async function getDashboardStats() {
+  await loadJsonData();
   await delay(200);
   
   return {
@@ -234,6 +282,7 @@ export async function getLeadersData() {
 }
 
 export async function getAcademyData() {
+  await loadJsonData();
   await delay(200);
   return {
     courses: academyData.courses,

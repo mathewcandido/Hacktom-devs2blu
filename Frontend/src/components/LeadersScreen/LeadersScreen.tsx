@@ -117,9 +117,27 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
       'Quality Assurance': '#388e3c',
       'Data Science': '#f57c00',
       'Product Management': '#d32f2f',
-      'Marketing Digital': '#0288d1'
+      'Marketing Digital': '#0288d1',
+      'DEVELOPMENT': '#1976d2',
+      'UX_DESIGN': '#7b1fa2',
+      'QA': '#388e3c',
+      'DATA_SCIENCE': '#f57c00',
+      'PRODUCT': '#d32f2f',
+      'MARKETING': '#0288d1'
     };
     return colors[area] || '#666';
+  };
+
+  const getAreaDisplayName = (area: string) => {
+    const areaNames: { [key: string]: string } = {
+      'DEVELOPMENT': 'Desenvolvimento',
+      'UX_DESIGN': 'UX/UI Design',
+      'QA': 'Quality Assurance',
+      'DATA_SCIENCE': 'Data Science',
+      'PRODUCT': 'Product Management',
+      'MARKETING': 'Marketing Digital'
+    };
+    return areaNames[area] || area;
   };
 
   return (
@@ -209,7 +227,7 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
                 >
                   <MenuItem value="">Todas</MenuItem>
                   {uniqueAreas.map(area => (
-                    <MenuItem key={area} value={area}>{area}</MenuItem>
+                    <MenuItem key={area} value={area}>{getAreaDisplayName(area)}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -301,7 +319,7 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
                           </TableCell>
                           <TableCell>
                             <Chip
-                              label={leader.area}
+                              label={getAreaDisplayName(leader.area)}
                               size="small"
                               sx={{
                                 backgroundColor: getAreaColor(leader.area) + '20',
@@ -363,7 +381,7 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
                         {mostActiveLeader.name}
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {mostActiveLeader.area}
+                        {getAreaDisplayName(mostActiveLeader.area)}
                       </Typography>
                     </Box>
                   </Box>

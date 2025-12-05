@@ -7,6 +7,10 @@ const nextConfig = {
   output: 'standalone',
   experimental: {
     outputFileTracingRoot: __dirname,
+  },
+  // Ensure public assets are copied in standalone mode
+  async generateBuildId() {
+    return 'build-' + new Date().getTime()
   }
 }
 
