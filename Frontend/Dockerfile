@@ -17,6 +17,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN yarn build
 # Ensure public folder exists after build
 RUN mkdir -p /app/public
+RUN --mount=type=cache,target=.next/cache,sharing=locked yarn build
 
 # Runner
 FROM node:20-alpine AS runner
@@ -38,5 +39,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 USER nextjs
 
 EXPOSE 3000
+
+ENV NEXT_TELEMETRY_DISABLED 1
 
 CMD ["node", "server.js"]
