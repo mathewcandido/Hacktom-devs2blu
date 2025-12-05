@@ -6,13 +6,13 @@ public enum Status {
     RESERVADO("Reservado"),
     CONTRATADO("Contratado");
 
-    private String status;
+    private String displayName;
 
-    Status(String status) {
-        this.status = status;
+    Status(String displayName) {
+        this.displayName = displayName;
     }
 
-    public String getStatus() {
-        return this.status;
+    public String getDisplayName() {
+        return this.displayName;
     }
 }

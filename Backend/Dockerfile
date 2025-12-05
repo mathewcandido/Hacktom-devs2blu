@@ -1,26 +1,16 @@
-# Etapa 1: Build da aplicação
-FROM maven:3.9-eclipse-temurin-17-alpine AS build
+# Dockerfile simplificado para evitar problemas de cache
+FROM maven:3.9.4-amazoncorretto-17
 
 WORKDIR /app
 
-# Copia o pom.xml e baixa as dependências
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
+# Copiar tudo de uma vez
+COPY . .
 
-# Copia o código fonte e faz o build
-COPY src ./src
+# Build e executar diretamente
 RUN mvn clean package -DskipTests
 
-# Etapa 2: Imagem final
-FROM eclipse-temurin:17-jre-alpine
-
-WORKDIR /app
-
-# Copia o JAR da etapa de build
-COPY --from=build /app/target/*.jar app.jar
-
-# Expõe a porta da aplicação
+# Expor porta
 EXPOSE 8080
 
-# Comando para executar a aplicação
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Executar aplicação
+CMD ["java", "-jar", "target/TalentHub-0.0.1-SNAPSHOT.jar"]

@@ -18,6 +18,7 @@ public class Participant {
     private String photoUrl;
     private String area;
     private String batch;
+    @Enumerated(EnumType.STRING)
     private Status status = Status.EM_FORMACAO;
     private Integer evolution;
     private LocalDateTime startDate = LocalDateTime.now();
