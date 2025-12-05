@@ -115,15 +115,23 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants }) => {
   return (
     <ProtectedRoute>
       <Layout>
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: { xs: 2, md: 4 } }}>
           <Typography
             variant="h4"
             gutterBottom
-            sx={{ fontWeight: 600, color: "#1a1a1a" }}
+            sx={{ 
+              fontWeight: 600, 
+              color: "#1a1a1a",
+              fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+            }}
           >
             Dashboard Geral
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography 
+            variant="body1" 
+            color="textSecondary"
+            sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
+          >
             Visão geral da incubadora de talentos
           </Typography>
         </Box>
@@ -173,14 +181,21 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants }) => {
         </Grid>
 
         {/* Charts */}
-        <Grid container spacing={3}>
+        <Grid container spacing={{ xs: 2, md: 3 }}>
           {/* Status Distribution */}
-          <Grid item xs={12} md={6}>
-            <Paper sx={{ p: 3, borderRadius: 2 }}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+          <Grid item xs={12} lg={6}>
+            <Paper sx={{ p: { xs: 2, md: 3 }, borderRadius: 2 }}>
+              <Typography 
+                variant="h6" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 600,
+                  fontSize: { xs: '1rem', sm: '1.25rem' }
+                }}
+              >
                 Distribuição por Status
               </Typography>
-              <Box sx={{ height: 300 }}>
+              <Box sx={{ height: { xs: 250, sm: 300 } }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -207,12 +222,19 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants }) => {
           </Grid>
 
           {/* Area Distribution */}
-          <Grid item xs={12} md={6}>
-            <Paper sx={{ p: 3, borderRadius: 2 }}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+          <Grid item xs={12} lg={6}>
+            <Paper sx={{ p: { xs: 2, md: 3 }, borderRadius: 2 }}>
+              <Typography 
+                variant="h6" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 600,
+                  fontSize: { xs: '1rem', sm: '1.25rem' }
+                }}
+              >
                 Talentos por Área
               </Typography>
-              <Box sx={{ height: 300 }}>
+              <Box sx={{ height: { xs: 250, sm: 300 } }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={areaDistribution}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -224,7 +246,7 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants }) => {
                       textAnchor="end"
                       height={80}
                     />
-                    <YAxis />
+                    <YAxis tick={{ fontSize: 12 }} />
                     <Tooltip />
                     <Bar dataKey="count" fill="#1976d2" radius={[4, 4, 0, 0]} />
                   </BarChart>
@@ -235,20 +257,30 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants }) => {
 
           {/* Evolution by Batch */}
           <Grid item xs={12}>
-            <Paper sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
+            <Paper sx={{ p: { xs: 2, md: 3 }, borderRadius: 2, boxShadow: 3 }}>
               <Typography
                 variant="h6"
                 gutterBottom
-                sx={{ fontWeight: 600, color: "#1a1a1a" }}
+                sx={{ 
+                  fontWeight: 600, 
+                  color: "#1a1a1a",
+                  fontSize: { xs: '1rem', sm: '1.25rem' }
+                }}
               >
                 📈 Evolução Média por Turma
               </Typography>
-              <Box sx={{ height: 300 }}>
+              <Box sx={{ height: { xs: 250, sm: 300 } }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={evolutionByBatch}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="batch" />
-                    <YAxis domain={[0, 100]} />
+                    <XAxis 
+                      dataKey="batch" 
+                      tick={{ fontSize: 12 }}
+                    />
+                    <YAxis 
+                      domain={[0, 100]} 
+                      tick={{ fontSize: 12 }}
+                    />
                     <Tooltip
                       formatter={(value: any, name: any) => [
                         `${value}%`,

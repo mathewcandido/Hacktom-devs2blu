@@ -47,28 +47,24 @@ const menuItems = [
 ];
 
 export interface SidebarProps {
-  //....
+  mobileOpen?: boolean;
+  onDrawerToggle?: () => void;
+  isMobile?: boolean;
 }
 
-const Sidebar: React.FC<SidebarProps> = () => {
+const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onDrawerToggle, isMobile }) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  return (
-    <Drawer
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: drawerWidth,
-          boxSizing: "border-box",
-          backgroundColor: "#1a1a1a",
-          color: "white",
-        },
-      }}
-      variant="permanent"
-      anchor="left"
-    >
+  const handleNavigation = (path: string) => {
+    router.push(path);
+    if (isMobile && onDrawerToggle) {
+      onDrawerToggle();
+    }
+  };
+
+  const drawerContent = (
+    <>
       <Toolbar>
         <Typography
           variant="h6"
@@ -88,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 selected={
                   pathname === item.path || pathname?.startsWith(item.path)
                 }
-                onClick={() => router.push(item.path)}
+                onClick={() => handleNavigation(item.path)}
                 sx={{
                   mx: 2,
                   mb: 1,
@@ -119,9 +115,56 @@ const Sidebar: React.FC<SidebarProps> = () => {
           ))}
         </List>
       </Box>
-    </Drawer>
+    </>
+  );
+
+  return (
+    <Box
+      component="nav"
+      sx={{ 
+        width: { md: drawerWidth }, 
+        flexShrink: { md: 0 } 
+      }}
+    >
+      {/* Mobile drawer */}
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={onDrawerToggle}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile
+        }}
+        sx={{
+          display: { xs: 'block', md: 'none' },
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: drawerWidth,
+            backgroundColor: '#1a1a1a',
+            color: 'white',
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+      
+      {/* Desktop drawer */}
+      <Drawer
+        variant="permanent"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: drawerWidth,
+            backgroundColor: '#1a1a1a',
+            color: 'white',
+          },
+        }}
+        open
+      >
+        {drawerContent}
+      </Drawer>
+    </Box>
   );
 };
-
 
 export default Sidebar;
