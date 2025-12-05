@@ -29,6 +29,7 @@ import {
 import { Search, Visibility, Clear, FilterList, TrendingUp, People, School, CheckCircle } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import Layout from '@/components/Layout';
+import QuickFilters from '@/components/QuickFilters';
 import { ProtectedRoute } from '../ProtectedRoute';
 import { Participant, EnumParticipantStatus, EnumArea } from '@/types';
 import { statusColors, areaColors } from '@/mocks/status';
@@ -85,6 +86,31 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
     setEvolutionRange([0, 100]);
   };
 
+  // Apply quick filter
+  const handleQuickFilterApply = (criteria: any) => {
+    if (criteria.areas.length > 0) {
+      setAreaFilter(criteria.areas[0]); // Simplificado para MVP
+    } else {
+      setAreaFilter('all');
+    }
+    
+    if (criteria.statuses.length > 0) {
+      setStatusFilter(criteria.statuses[0]);
+    } else {
+      setStatusFilter('all');
+    }
+    
+    setEvolutionRange([criteria.minEvolution || 0, 100]);
+  };
+
+  // Current filters for QuickFilters component
+  const currentQuickFilters = {
+    areas: areaFilter !== 'all' ? [areaFilter as EnumArea] : [],
+    statuses: statusFilter !== 'all' ? [statusFilter as EnumParticipantStatus] : [],
+    minEvolution: evolutionRange[0],
+    skills: [] // Simplificado para MVP
+  };
+
   const handleViewParticipant = (id: string) => {
     router.push(`/participants/${id}`);
   };
@@ -108,6 +134,12 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
             Gestão de todos os talentos da incubadora
           </Typography>
         </Box>
+
+        {/* Quick Filters */}
+        <QuickFilters
+          onFilterApply={handleQuickFilterApply}
+          currentFilters={currentQuickFilters}
+        />
 
         {/* Stats Cards */}
         <Grid container spacing={2} sx={{ mb: 3 }}>
@@ -166,24 +198,28 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
         </Grid>
 
         {/* Filters */}
-        <Paper sx={{ p: 3, mb: 3, borderRadius: 2 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+        <Paper sx={{ p: { xs: 2, md: 3 }, mb: 3, borderRadius: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3, flexWrap: { xs: 'wrap', sm: 'nowrap' } }}>
             <FilterList color="primary" />
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>Filtros</Typography>
-            <Box sx={{ ml: 'auto' }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, fontSize: { xs: '1.1rem', md: '1.25rem' } }}>Filtros</Typography>
+            <Box sx={{ ml: { xs: 0, sm: 'auto' }, width: { xs: '100%', sm: 'auto' }, mt: { xs: 1, sm: 0 } }}>
               <Button 
                 startIcon={<Clear />} 
                 onClick={clearFilters}
                 size="small"
                 variant="outlined"
+                sx={{ 
+                  fontSize: { xs: '0.75rem', md: '0.875rem' },
+                  width: { xs: '100%', sm: 'auto' }
+                }}
               >
                 Limpar Filtros
               </Button>
             </Box>
           </Box>
           
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
                 size="small"
@@ -199,7 +235,7 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
                 }}
               />
             </Grid>
-            <Grid item xs={12} md={2}>
+            <Grid item xs={12} sm={6} md={2.5}>
               <FormControl fullWidth size="small">
                 <InputLabel>Status</InputLabel>
                 <Select
@@ -269,8 +305,22 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
         </Paper>
 
         {/* Results Summary */}
-        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="body2" color="textSecondary">
+        <Box sx={{ 
+          mb: 2, 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          flexDirection: { xs: 'column', sm: 'row' },
+          gap: { xs: 1, sm: 0 }
+        }}>
+          <Typography 
+            variant="body2" 
+            color="textSecondary"
+            sx={{ 
+              fontSize: { xs: '0.75rem', sm: '0.875rem' },
+              textAlign: { xs: 'center', sm: 'left' }
+            }}
+          >
             Mostrando {filteredParticipants.length} de {participants.length} participantes
           </Typography>
           {(searchTerm || statusFilter !== 'all' || areaFilter !== 'all' || batchFilter !== 'all' || evolutionRange[0] > 0 || evolutionRange[1] < 100) && (
@@ -285,16 +335,16 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
         </Box>
 
         {/* Participants Table */}
-        <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
-          <Table>
+        <TableContainer component={Paper} sx={{ borderRadius: 2, overflowX: 'auto' }}>
+          <Table sx={{ minWidth: { xs: 650, md: 'auto' } }}>
             <TableHead>
               <TableRow sx={{ bgcolor: 'grey.50' }}>
                 <TableCell>Participante</TableCell>
-                <TableCell>Área</TableCell>
+                <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Área</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell>Evolução</TableCell>
-                <TableCell>Turma</TableCell>
-                <TableCell>Data de Início</TableCell>
+                <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Evolução</TableCell>
+                <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Turma</TableCell>
+                <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Data de Início</TableCell>
                 <TableCell align="center">Ações</TableCell>
               </TableRow>
             </TableHead>
@@ -302,21 +352,62 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
               {filteredParticipants.map((participant) => (
                 <TableRow key={participant.id} hover>
                   <TableCell>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                      <Avatar src={participant.photo} sx={{ width: 40, height: 40 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
+                      <Avatar 
+                        src={participant.photo} 
+                        sx={{ 
+                          width: { xs: 32, sm: 40 }, 
+                          height: { xs: 32, sm: 40 } 
+                        }}
+                      >
                         {participant.name[0]}
                       </Avatar>
-                      <Box>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                      <Box sx={{ minWidth: 0, flex: 1 }}>
+                        <Typography 
+                          variant="subtitle2" 
+                          sx={{ 
+                            fontWeight: 600,
+                            fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
                           {participant.name}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary">
+                        <Typography 
+                          variant="body2" 
+                          color="textSecondary"
+                          sx={{
+                            fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
                           {participant.email}
                         </Typography>
+                        {/* Mobile info - show area and evolution on mobile */}
+                        <Box sx={{ display: { xs: 'flex', sm: 'none' }, gap: 1, mt: 0.5 }}>
+                          <Chip
+                            label={participant.area}
+                            size="small"
+                            sx={{
+                              backgroundColor: areaColors[participant.area]?.color + '20',
+                              color: areaColors[participant.area]?.color,
+                              fontWeight: 500,
+                              fontSize: '0.6rem',
+                              height: 20
+                            }}
+                          />
+                          <Typography variant="caption" color="textSecondary">
+                            {participant.evolution}%
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
                     <Chip
                       label={participant.area}
                       size="small"
@@ -335,10 +426,11 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
                         backgroundColor: statusColors[participant.status]?.color + '20',
                         color: statusColors[participant.status]?.color,
                         fontWeight: 500,
+                        fontSize: { xs: '0.65rem', sm: '0.75rem' }
                       }}
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <LinearProgress
                         variant="determinate"
@@ -350,15 +442,21 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>{participant.batch}</TableCell>
-                  <TableCell>{formatDate(participant.startDate)}</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>{participant.batch}</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>{formatDate(participant.startDate)}</TableCell>
                   <TableCell align="center">
                     <Button
                       startIcon={<Visibility />}
                       onClick={() => handleViewParticipant(participant.id)}
                       size="small"
+                      sx={{
+                        fontSize: { xs: '0.7rem', sm: '0.875rem' },
+                        minWidth: { xs: 'auto', sm: '64px' },
+                        px: { xs: 1, sm: 2 }
+                      }}
                     >
-                      Ver
+                      <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>Ver</Box>
+                      <Visibility sx={{ display: { xs: 'inline', sm: 'none' }, fontSize: '1rem' }} />
                     </Button>
                   </TableCell>
                 </TableRow>

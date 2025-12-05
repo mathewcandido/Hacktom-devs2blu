@@ -197,16 +197,16 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
         </Grid>
 
         {/* Filters Section */}
-        <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
+        <Paper sx={{ p: { xs: 2, md: 3 }, borderRadius: 2, mb: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
             <FilterList color="primary" />
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, fontSize: { xs: '1.1rem', md: '1.25rem' } }}>
               Filtros
             </Typography>
           </Box>
           
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
                 size="small"
@@ -217,7 +217,7 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
               />
             </Grid>
             
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid item xs={12} sm={6} md={2.5}>
               <FormControl fullWidth size="small">
                 <InputLabel>Área</InputLabel>
                 <Select
@@ -233,7 +233,7 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
               </FormControl>
             </Grid>
             
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={2.5}>
               <FormControl fullWidth size="small">
                 <InputLabel>Departamento</InputLabel>
                 <Select
@@ -264,15 +264,20 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
               </FormControl>
             </Grid>
             
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid item xs={12} sm={6} md={1}>
               <Button
                 fullWidth
                 variant="outlined"
                 startIcon={<Clear />}
                 onClick={clearFilters}
-                sx={{ height: '40px' }}
+                sx={{ 
+                  height: '40px',
+                  minWidth: { xs: 'auto', md: '80px' },
+                  fontSize: { xs: '0.75rem', md: '0.875rem' }
+                }}
               >
-                Limpar
+                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>Limpar</Box>
+                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>✕</Box>
               </Button>
             </Grid>
           </Grid>
@@ -281,21 +286,21 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
         <Grid container spacing={3}>
           {/* Leaders List */}
           <Grid item xs={12} lg={8}>
-            <Paper sx={{ p: 3, borderRadius: 2 }}>
+            <Paper sx={{ p: { xs: 2, md: 3 }, borderRadius: 2 }}>
               <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
                 Lista de Líderes
               </Typography>
               
-              <TableContainer>
-                <Table>
+              <TableContainer sx={{ overflowX: 'auto' }}>
+                <Table size="small">
                   <TableHead>
                     <TableRow sx={{ bgcolor: 'grey.50' }}>
                       <TableCell>Líder</TableCell>
-                      <TableCell>Área</TableCell>
-                      <TableCell>Departamento</TableCell>
-                      <TableCell align="center">Interessados</TableCell>
-                      <TableCell align="center">Reservados</TableCell>
-                      <TableCell>Desde</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Área</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Departamento</TableCell>
+                      <TableCell align="center">Int.</TableCell>
+                      <TableCell align="center">Res.</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Desde</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -303,21 +308,45 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
                       filteredLeaders.map((leader) => (
                         <TableRow key={leader.id} hover>
                           <TableCell>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                              <Avatar src={leader.photo} sx={{ width: 40, height: 40 }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, md: 2 } }}>
+                              <Avatar src={leader.photo} sx={{ width: { xs: 32, md: 40 }, height: { xs: 32, md: 40 } }}>
                                 {leader.name[0]}
                               </Avatar>
                               <Box>
-                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                <Typography 
+                                  variant="subtitle2" 
+                                  sx={{ 
+                                    fontWeight: 600,
+                                    fontSize: { xs: '0.75rem', md: '0.875rem' }
+                                  }}
+                                >
                                   {leader.name}
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary">
+                                <Typography 
+                                  variant="body2" 
+                                  color="textSecondary"
+                                  sx={{ 
+                                    fontSize: { xs: '0.625rem', md: '0.75rem' },
+                                    display: { xs: 'none', sm: 'block' }
+                                  }}
+                                >
                                   {leader.email}
+                                </Typography>
+                                {/* Show area on mobile when area column is hidden */}
+                                <Typography 
+                                  variant="body2" 
+                                  sx={{ 
+                                    fontSize: '0.625rem',
+                                    color: getAreaColor(leader.area),
+                                    display: { xs: 'block', sm: 'none' }
+                                  }}
+                                >
+                                  {getAreaDisplayName(leader.area)}
                                 </Typography>
                               </Box>
                             </Box>
                           </TableCell>
-                          <TableCell>
+                          <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
                             <Chip
                               label={getAreaDisplayName(leader.area)}
                               size="small"
@@ -325,16 +354,22 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
                                 backgroundColor: getAreaColor(leader.area) + '20',
                                 color: getAreaColor(leader.area),
                                 fontWeight: 500,
+                                fontSize: { xs: '0.625rem', md: '0.75rem' }
                               }}
                             />
                           </TableCell>
-                          <TableCell>{leader.department}</TableCell>
+                          <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                            <Typography sx={{ fontSize: { xs: '0.75rem', md: '0.875rem' } }}>
+                              {leader.department}
+                            </Typography>
+                          </TableCell>
                           <TableCell align="center">
                             <Chip 
                               label={leader.interestedParticipants.length} 
                               size="small" 
                               color="primary" 
                               variant="outlined"
+                              sx={{ fontSize: { xs: '0.625rem', md: '0.75rem' } }}
                             />
                           </TableCell>
                           <TableCell align="center">
@@ -343,9 +378,14 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
                               size="small" 
                               color="secondary" 
                               variant="outlined"
+                              sx={{ fontSize: { xs: '0.625rem', md: '0.75rem' } }}
                             />
                           </TableCell>
-                          <TableCell>{formatDate(leader.joinDate)}</TableCell>
+                          <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                            <Typography sx={{ fontSize: { xs: '0.75rem', md: '0.875rem' } }}>
+                              {formatDate(leader.joinDate)}
+                            </Typography>
+                          </TableCell>
                         </TableRow>
                       ))
                     ) : (
@@ -366,8 +406,8 @@ const LeadersScreen: React.FC<LeadersScreenProps> = ({ leaders }) => {
           {/* Sidebar Stats */}
           <Grid item xs={12} lg={4}>
             {/* Most Active Leader */}
-            <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+            <Paper sx={{ p: { xs: 2, md: 3 }, borderRadius: 2, mb: 3 }}>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, fontSize: { xs: '1.1rem', md: '1.25rem' } }}>
                 Líder Mais Ativo
               </Typography>
               {mostActiveLeader ? (

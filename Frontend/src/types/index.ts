@@ -5,6 +5,21 @@ export type { Evaluation } from './Evaluation';
 export type { TimelineEvent } from './TimelineEvent';
 export type { User, LoginCredentials, AuthState, AuthContextType } from './Auth';
 
+// Import types for internal use
+import type { Participant } from './Participant';
+import type { Leader } from './Leader';
+
+// Match Result interface
+export interface MatchResult {
+  participantId: string;
+  leaderId: string;
+  participant: Participant;
+  leader: Leader;
+  score: number;
+  reasons: string[];
+  compatibility: 'high' | 'medium' | 'low';
+}
+
 // Export enums
 export { EnumArea } from './EnumArea';
 export { EnumParticipantStatus } from './EnumParticipantStatus';

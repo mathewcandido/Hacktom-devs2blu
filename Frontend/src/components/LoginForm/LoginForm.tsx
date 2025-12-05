@@ -119,7 +119,7 @@ export function LoginForm() {
           </Stack>
         </Box>
 
-        <Box sx={{ mt: 3, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>
+        {/* <Box sx={{ mt: 3, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>
           <Typography variant="body2" color="text.secondary" align="center">
             <strong>Usuários de teste:</strong>
           </Typography>
@@ -129,7 +129,7 @@ export function LoginForm() {
           <Typography variant="caption" display="block" align="center">
             Senha: 123456
           </Typography>
-        </Box>
+        </Box> */}
       </CardContent>
     </Card>
   );
