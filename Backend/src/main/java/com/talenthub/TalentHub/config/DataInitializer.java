@@ -92,7 +92,7 @@ public class DataInitializer implements CommandLineRunner {
         );
 
         List<String> departments = Arrays.asList(
-            "Tecnologia", "Design", "Qualidade", "Dados", "Produto", "Marketing"
+            "Tecnologia", "Design", "Qualidade", "Dados", "Produto", "Marketing Digital"
         );
 
         List<String> areas = Arrays.asList(
