@@ -29,6 +29,7 @@ import {
 import { Search, Visibility, Clear, FilterList, TrendingUp, People, School, CheckCircle } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import Layout from '@/components/Layout';
+import QuickFilters from '@/components/QuickFilters';
 import { ProtectedRoute } from '../ProtectedRoute';
 import { Participant, EnumParticipantStatus, EnumArea } from '@/types';
 import { statusColors, areaColors } from '@/mocks/status';
@@ -85,6 +86,31 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
     setEvolutionRange([0, 100]);
   };
 
+  // Apply quick filter
+  const handleQuickFilterApply = (criteria: any) => {
+    if (criteria.areas.length > 0) {
+      setAreaFilter(criteria.areas[0]); // Simplificado para MVP
+    } else {
+      setAreaFilter('all');
+    }
+    
+    if (criteria.statuses.length > 0) {
+      setStatusFilter(criteria.statuses[0]);
+    } else {
+      setStatusFilter('all');
+    }
+    
+    setEvolutionRange([criteria.minEvolution || 0, 100]);
+  };
+
+  // Current filters for QuickFilters component
+  const currentQuickFilters = {
+    areas: areaFilter !== 'all' ? [areaFilter as EnumArea] : [],
+    statuses: statusFilter !== 'all' ? [statusFilter as EnumParticipantStatus] : [],
+    minEvolution: evolutionRange[0],
+    skills: [] // Simplificado para MVP
+  };
+
   const handleViewParticipant = (id: string) => {
     router.push(`/participants/${id}`);
   };
@@ -108,6 +134,12 @@ const ParticipantsScreen: React.FC<ParticipantsScreenProps> = ({ participants })
             Gestão de todos os talentos da incubadora
           </Typography>
         </Box>
+
+        {/* Quick Filters */}
+        <QuickFilters
+          onFilterApply={handleQuickFilterApply}
+          currentFilters={currentQuickFilters}
+        />
 
         {/* Stats Cards */}
         <Grid container spacing={2} sx={{ mb: 3 }}>

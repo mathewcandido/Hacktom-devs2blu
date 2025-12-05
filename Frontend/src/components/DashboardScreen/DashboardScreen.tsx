@@ -19,20 +19,25 @@ import {
 } from "recharts";
 import Layout from "@/components/Layout";
 import StatsCard from "@/components/StatsCard/StatsCard";
+import MatchingWidget from "@/components/MatchingWidget";
 import { ProtectedRoute } from "../../components/ProtectedRoute";
-import { Participant, EnumParticipantStatus, EnumArea } from "@/types";
+import { Participant, EnumParticipantStatus, EnumArea, Leader } from "@/types";
 import { statusColors, areaColors } from "@/mocks/status";
+import { generateLeaders } from "@/mocks/generateLeaders";
 
 export interface DashboardProps {
   participants: Participant[];
-  leaders?: any[];
+  leaders?: Leader[];
   stats?: any;
 }
 
-const DashboardScreen: React.FC<DashboardProps> = ({ participants }) => {
+const DashboardScreen: React.FC<DashboardProps> = ({ participants, leaders }) => {
   if (participants.length < 1) {
     return null;
   }
+
+  // Mock leaders se não fornecidos
+  const mockLeaders = leaders || generateLeaders(8);
 
   const totalParticipants = participants.length;
   const availableParticipants = participants.filter(
@@ -179,6 +184,15 @@ const DashboardScreen: React.FC<DashboardProps> = ({ participants }) => {
             />
           </Grid>
         </Grid>
+
+        {/* Matching Widget */}
+        <Box sx={{ mb: { xs: 2, md: 4 } }}>
+          <MatchingWidget 
+            participants={participants}
+            leaders={mockLeaders}
+            currentUser={{ role: 'admin', id: 'admin-1' }} // Mock user
+          />
+        </Box>
 
         {/* Charts */}
         <Grid container spacing={{ xs: 2, md: 3 }}>

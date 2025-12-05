@@ -18,6 +18,10 @@ import {
   People as PeopleIcon,
   SupervisorAccount as LeaderIcon,
   School as AcademyIcon,
+  PersonAdd as PersonAddIcon,
+  GroupAdd as GroupAddIcon,
+  Psychology as MatchesIcon,
+  AccountCircle as ParticipantAddIcon,
 } from "@mui/icons-material";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -43,6 +47,29 @@ const menuItems = [
     text: "Academia",
     icon: <AcademyIcon />,
     path: "/academy",
+  },
+  {
+    text: "Matches",
+    icon: <MatchesIcon />,
+    path: "/matches",
+  },
+];
+
+const cadastroItems = [
+  {
+    text: "Cadastrar Participante",
+    icon: <ParticipantAddIcon />,
+    path: "/register-participant",
+  },
+  {
+    text: "Cadastrar Turma",
+    icon: <GroupAddIcon />,
+    path: "/register-batch",
+  },
+  {
+    text: "Cadastrar Líder",
+    icon: <PersonAddIcon />,
+    path: "/register-leader",
   },
 ];
 
@@ -77,6 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onDrawerToggle, isMobile 
       </Toolbar>
       <Divider sx={{ borderColor: "#333" }} />
       <Box sx={{ overflow: "auto", mt: 2 }}>
+        {/* Main Menu Items */}
         <List>
           {menuItems.map((item) => (
             <ListItem key={item.text} disablePadding>
@@ -93,6 +121,61 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onDrawerToggle, isMobile 
                     backgroundColor: "#1976d2",
                     "&:hover": {
                       backgroundColor: "#1565c0",
+                    },
+                  },
+                  "&:hover": {
+                    backgroundColor: "#333",
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ color: "inherit", minWidth: 40 }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  primaryTypographyProps={{
+                    fontSize: "0.95rem",
+                    fontWeight: pathname === item.path ? 600 : 400,
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+
+        {/* Divider and Cadastros Section */}
+        <Divider sx={{ borderColor: "#333", mx: 2, my: 2 }} />
+        
+        <Box sx={{ px: 3, mb: 1 }}>
+          <Typography 
+            variant="overline" 
+            sx={{ 
+              color: "#999", 
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              letterSpacing: 1
+            }}
+          >
+            Cadastros
+          </Typography>
+        </Box>
+
+        <List>
+          {cadastroItems.map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton
+                selected={
+                  pathname === item.path || pathname?.startsWith(item.path)
+                }
+                onClick={() => handleNavigation(item.path)}
+                sx={{
+                  mx: 2,
+                  mb: 1,
+                  borderRadius: 2,
+                  "&.Mui-selected": {
+                    backgroundColor: "#2e7d32",
+                    "&:hover": {
+                      backgroundColor: "#1b5e20",
                     },
                   },
                   "&:hover": {
